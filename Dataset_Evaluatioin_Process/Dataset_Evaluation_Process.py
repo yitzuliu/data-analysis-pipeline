@@ -27,7 +27,7 @@ def calculate_data_quality_metrics(df, dataset_name):
     datetime_cols = len(df.select_dtypes(include=['datetime64']).columns)
     
     # Overall quality score (weighted average)
-    overall_quality = (completeness_score * 0.6 + uniqueness_score * 0.4)
+    overall_quality = (completeness_score * 0.5 + uniqueness_score * 0.5)
     
     quality_metrics = {
         'dataset_name': dataset_name,
@@ -68,7 +68,7 @@ def display_quality_metrics(quality_metrics):
     else:
         quality_level = "Poor ⚠️"
     
-    print(f"  📈 Quality Level: {quality_level}")
+    print(f"Quality Level: {quality_level}")
 
 # Function to safely load and inspect datasets
 def load_and_inspect_dataset(filename, dataset_name):
@@ -124,23 +124,22 @@ def display_dataset_info(filename, dataset_name, df=None, excel_data=None):
     
     print(f"\n{'='*60}")
     print(f"DATASET: {dataset_name.upper()}")
-    print(f"📁 File: {filename}")
+    print(f"File: {filename}")
     
     # Handle CSV files
     if df is not None and excel_data is None:
-        # print(f"📋 File Type: CSV")
-        print(f"📊 Shape: {df.shape[0]:,} rows × {df.shape[1]} columns")
-        print(f"💾 Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+        print(f"Shape: {df.shape[0]:,} rows × {df.shape[1]} columns")
+        print(f"Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
         
-        print(f"\n📋 Column Names:")
+        print(f"\nColumn Names:")
         for i, col in enumerate(df.columns, 1):
             print(f"  {i:2d}. {col}")
         
-        print(f"\n🔍 Data Types:")
+        print(f"\nData Types:")
         print(df.dtypes.value_counts())
         
         # Missing data analysis
-        print(f"\n🕳️  Missing Data Analysis:")
+        print(f"\nMissing Data Analysis:")
         total_cells = df.shape[0] * df.shape[1]
         missing_cells = df.isnull().sum().sum()
         missing_percentage = (missing_cells / total_cells) * 100 if total_cells > 0 else 0
