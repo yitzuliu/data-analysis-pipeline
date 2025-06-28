@@ -86,6 +86,8 @@ def load_and_inspect_dataset(filename, dataset_name):
             # Display information for CSV
             display_dataset_info(filename, dataset_name, df=df)
             
+            return True, "Success"
+            
         elif filename.endswith('.xlsx') or filename.endswith('.xls'):
             # Load all sheets from Excel file
             excel_file = pd.ExcelFile(file_path)
@@ -106,6 +108,8 @@ def load_and_inspect_dataset(filename, dataset_name):
             
             # Display comprehensive information for all sheets
             display_dataset_info(filename, dataset_name, excel_data=excel_data)
+            
+            return True, "Success"
                 
         else:
             return None, f"Unsupported file format for {filename}"
@@ -120,12 +124,11 @@ def display_dataset_info(filename, dataset_name, df=None, excel_data=None):
     
     print(f"\n{'='*60}")
     print(f"DATASET: {dataset_name.upper()}")
-    print(f"{'='*60}")
     print(f"📁 File: {filename}")
     
     # Handle CSV files
     if df is not None and excel_data is None:
-        print(f"📋 File Type: CSV")
+        # print(f"📋 File Type: CSV")
         print(f"📊 Shape: {df.shape[0]:,} rows × {df.shape[1]} columns")
         print(f"💾 Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
         
@@ -212,10 +215,18 @@ def display_dataset_info(filename, dataset_name, df=None, excel_data=None):
             # Calculate and display quality metrics for each sheet
             sheet_quality_metrics = calculate_data_quality_metrics(sheet_df, f"{dataset_name}_{sheet_name}")
             display_quality_metrics(sheet_quality_metrics)
-            
-            # Calculate and display quality metrics for CSV
-            quality_metrics = calculate_data_quality_metrics(df, dataset_name)
-            display_quality_metrics(quality_metrics)
+        
+        # Calculate overall quality metrics for the entire Excel file (all sheets combined)
+        print(f"\n{'='*50}")
+        print(f"OVERALL FILE QUALITY: {dataset_name.upper()}")
+        print(f"{'='*50}")
+        
+        # Combine all sheets into one large DataFrame for overall analysis
+        combined_df = pd.concat(excel_data.values(), ignore_index=True)
+        overall_quality_metrics = calculate_data_quality_metrics(combined_df, f"{dataset_name}_OVERALL")
+        
+        print(f"📊 Combined Analysis Across All {total_sheets} Sheets:")
+        display_quality_metrics(overall_quality_metrics)
 
     
 # Define data path
