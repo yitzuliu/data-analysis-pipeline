@@ -147,18 +147,6 @@ def display_dataset_info(filename, dataset_name, df=None, excel_data=None):
         
         print(f"  • Total missing cells: {missing_cells:,} ({missing_percentage:.1f}%)")
         
-        # Missing data by column
-        missing_by_column = df.isnull().sum()
-        columns_with_missing = missing_by_column[missing_by_column > 0].sort_values(ascending=False)
-        
-        if len(columns_with_missing) > 0:
-            print(f"  • Columns with missing data:")
-            for col, missing_count in columns_with_missing.head(5).items():
-                col_percentage = (missing_count / df.shape[0]) * 100
-                print(f"    - {col}: {missing_count:,} ({col_percentage:.1f}%)")
-        else:
-            print(f"  • No missing data found! ✅")
-        
         # Calculate and display quality metrics for CSV
         quality_metrics = calculate_data_quality_metrics(df, dataset_name)
         display_quality_metrics(quality_metrics)
@@ -199,18 +187,6 @@ def display_dataset_info(filename, dataset_name, df=None, excel_data=None):
             missing_percentage = (missing_cells / total_cells) * 100 if total_cells > 0 else 0
             
             print(f"  • Total missing cells: {missing_cells:,} ({missing_percentage:.1f}%)")
-            
-            # Missing data by column for this sheet
-            missing_by_column = sheet_df.isnull().sum()
-            columns_with_missing = missing_by_column[missing_by_column > 0].sort_values(ascending=False)
-            
-            if len(columns_with_missing) > 0:
-                print(f"  • Columns with missing data:")
-                for col, missing_count in columns_with_missing.head(3).items():
-                    col_percentage = (missing_count / sheet_df.shape[0]) * 100
-                    print(f"    - {col}: {missing_count:,} ({col_percentage:.1f}%)")
-            else:
-                print(f"  • No missing data found! ✅")
             
             # Calculate and display quality metrics for each sheet
             sheet_quality_metrics = calculate_data_quality_metrics(sheet_df, f"{dataset_name}_{sheet_name}")
