@@ -140,12 +140,12 @@ Create a systematic scoring matrix to objectively compare datasets.
 
 | Dataset | Statistical Opportunities | Visualization Potential | ML Applications | Technical Score |
 |---------|--------------------------|------------------------|-----------------|-----------------|
-| Airbnb | TBD | TBD | TBD | TBD |
-| Netflix | TBD | TBD | TBD | TBD |
-| Superstore | TBD | TBD | TBD | TBD |
-| Spotify | TBD | TBD | TBD | TBD |
-| Titanic | TBD | TBD | TBD | TBD |
-| AI Adoption | TBD | TBD | TBD | TBD |
+| Airbnb | Price modeling, location analysis, seasonality | Geospatial maps, price heatmaps, clustering | Regression, clustering, recommendation | 100/100 |
+| Netflix | Content analysis, release patterns | Timeline plots, genre distributions | Classification, NLP, recommendation | 90/100 |
+| Superstore | Sales forecasting, profit analysis | Sales dashboards, regional analysis | Forecasting, segmentation | 100/100 |
+| Spotify | Audio feature analysis, popularity trends | Feature distributions, clustering plots | Classification, clustering | 95/100 |
+| Titanic | Survival analysis, demographic patterns | Demographics plots, survival rates | Classification, feature selection | 80/100 |
+| AI Adoption | Adoption patterns, industry trends | Trend analysis, industry comparisons | Forecasting, classification | 100/100 |
 
 ---
 
@@ -167,33 +167,89 @@ The selected dataset must:
 
 ## 📝 Selection Rationale
 
-*To be completed after evaluation*
+*Completed after systematic evaluation - June 28, 2025*
 
-### **Chosen Dataset**: [TBD]
+### **Chosen Dataset**: **Airbnb Listings Dataset** 🏆
+
+**Final Score: 94.83/100**
+- Data Quality Score: 95.8/100 (95.7% completeness)
+- Business Relevance Score: 90.0/100 (High market value)
+- Technical Complexity Score: 100.0/100 (Rich feature set)
 
 #### **Why This Dataset Was Selected**
-1. **Data Quality Justification**: [TBD]
-2. **Business Value Proposition**: [TBD]
-3. **Technical Showcase Opportunities**: [TBD]
-4. **Competitive Advantages**: [TBD]
+
+1. **Data Quality Justification**: 
+   - 30,478 listings with 13 comprehensive features
+   - 95.7% data completeness with minimal missing values
+   - Clean structure with diverse data types (numerical, categorical, geospatial)
+   - No obvious errors or inconsistencies detected
+
+2. **Business Value Proposition**: 
+   - **Direct Revenue Impact**: Price optimization and competitive analysis
+   - **Strategic Insights**: Location-based investment recommendations
+   - **Market Intelligence**: Demand forecasting and segmentation opportunities
+   - **Executive Appeal**: Real estate insights relevant to C-suite decisions
+
+3. **Technical Showcase Opportunities**: 
+   - **Advanced ML**: Regression models for price prediction
+   - **Geospatial Analysis**: Location-based clustering and visualization
+   - **Feature Engineering**: Complex feature interactions and transformations
+   - **Business Analytics**: Market segmentation and profitability analysis
+   - **Interactive Dashboards**: Professional visualizations and storytelling
+
+4. **Competitive Advantages**: 
+   - Demonstrates real-world business problem-solving skills
+   - Showcases both technical depth and business acumen
+   - Provides compelling narrative for portfolio presentation
+   - Relevant across multiple industries (real estate, hospitality, finance)
 
 #### **Alternative Considerations**
-- **Second Choice**: [TBD] - Why it was close but not selected
-- **Eliminated Options**: Brief explanation of why other datasets were ruled out
+
+- **Second Choice**: **Superstore Dataset (91.1/100)** - Strong business metrics but less technical complexity than Airbnb
+- **Third Choice**: **AI Adoption Dataset (90.3/100)** - Highly relevant topic but smaller analytical scope
+
+#### **Eliminated Options**
+- **Netflix**: Good technical potential but limited direct business revenue analysis
+- **Spotify**: Interesting audio features but niche applicability  
+- **Titanic**: Classic dataset but too well-known and limited business relevance
 
 #### **Expected Project Outcomes**
-1. **Technical Skills Demonstrated**: [TBD]
-2. **Business Insights Generated**: [TBD]
-3. **Portfolio Differentiation**: [TBD]
+
+1. **Technical Skills Demonstrated**: 
+   - Advanced regression and clustering algorithms
+   - Geospatial data analysis and visualization
+   - Feature engineering and selection techniques
+   - Statistical analysis and hypothesis testing
+   - Professional data visualization and storytelling
+
+2. **Business Insights Generated**: 
+   - Pricing strategy recommendations
+   - Market opportunity identification
+   - Location-based investment guidance
+   - Customer segmentation strategies
+   - Revenue optimization models
+
+3. **Portfolio Differentiation**: 
+   - Combines technical sophistication with clear business value
+   - Demonstrates end-to-end analytical thinking
+   - Shows ability to work with real-world, messy data
+   - Provides compelling story for employer presentations
 
 ---
 
 ## 🎯 Next Steps
 
-1. **Execute Dataset Assessment** - Run evaluation notebook
-2. **Complete Scoring Matrix** - Fill in all TBD values
-3. **Document Final Selection** - Update this document with chosen dataset and rationale
-4. **Begin Comprehensive Analysis** - Proceed to Phase 2 of project plan
+1. **✅ Execute Dataset Assessment** - ~~Run evaluation notebook~~ **COMPLETED**
+2. **✅ Complete Scoring Matrix** - ~~Fill in all TBD values~~ **COMPLETED**
+3. **✅ Document Final Selection** - ~~Update this document with chosen dataset and rationale~~ **COMPLETED**
+4. **🚀 Begin Comprehensive Analysis** - **READY TO PROCEED** to Phase 2 of project plan
+
+### **Phase 2: Deep Analysis Roadmap**
+- **Data Exploration**: Comprehensive EDA of Airbnb dataset
+- **Feature Engineering**: Advanced feature creation and selection
+- **Modeling**: Price prediction and market segmentation models
+- **Business Insights**: Actionable recommendations and visualizations
+- **Professional Presentation**: Portfolio-ready documentation and dashboards
 
 ---
 
