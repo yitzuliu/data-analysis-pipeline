@@ -3,8 +3,13 @@ import numpy as np
 import os
 
 #Read the Airbnb dataset
-Airbnb_df = pd.read_excel(os.path.join("Datasource", "airbnb.xlsx"))
-print(f"{'='*5} Retrieve origianl dataset successfully {'='*5}")
+try:
+    Airbnb_df = pd.read_excel(os.path.join("Datasource", "airbnb.xlsx"))
+    print(f"{'='*5} Retrieve original dataset successfully {'='*5}")
+except Exception as e:
+    print(f"Error reading dataset: {str(e)}")
+    print(f"Please check if the 'Datasource' directory exists and you have read permissions.")
+    exit(1)
 
 # Display the shape of the dataset
 print(f"Dataset Overview: {Airbnb_df.shape[0]:,} x {Airbnb_df.shape[1]}")
@@ -18,7 +23,6 @@ Airbnb_df = Airbnb_df.sort_values(by='Host Id', ascending=True)
 
 print(f"Reviews per Price: {Airbnb_df['Price'].describe()}")
 print(Airbnb_df.head(10))
-print("\n" + "=" * 50)
 
 ##Clean Dataset
 print(f"{'='*5} Clean Dataset {'='*5}")
@@ -33,14 +37,14 @@ for col in Airbnb_df.columns:
 Airbnb_df = Airbnb_df.drop_duplicates(subset=['Host Id', 'Host Since'])
 
 # Reset "Host Since" column to datetime format and convert to date only
-Airbnb_df["Host Since"] = pd.to_datetime(Airbnb_df["Host Since"], format="%d/%m/%Y").dt.date
+Airbnb_df["Host Since"] = pd.to_datetime(Airbnb_df["Host Since"], format= "%d/%m/%Y").dt.date
 
 #Delete "Review Scores Rating (bin)" column
 Airbnb_df = Airbnb_df.drop(columns=['Review Scores Rating (bin)'])
 
 #Ensure numeric columns are in the correct format
 Airbnb_df['Price'] = pd.to_numeric(Airbnb_df['Price'], errors='coerce')
-Airbnb_df['Number Of Record'] = pd.to_numeric(Airbnb_df['Number Of Record'], errors='coerce')
+Airbnb_df['Number of Records'] = pd.to_numeric(Airbnb_df['Number of Records'], errors='coerce')
 Airbnb_df['Number Of Reviews'] = pd.to_numeric(Airbnb_df['Number Of Reviews'], errors='coerce')
 Airbnb_df['Review Scores Rating'] = pd.to_numeric(Airbnb_df['Review Scores Rating'], errors='coerce')
 
@@ -61,7 +65,8 @@ Airbnb_df = Airbnb_df[(Airbnb_df['Review Scores Rating'] >= 1) & (Airbnb_df['Rev
 Airbnb_df = Airbnb_df[(Airbnb_df['Number of Records'] >= 1)]
 
 # Cleaning the dataset
-Airbnb_df = Airbnb_df.dropna(subset=['Host Id', 'Review Scores Rating', 'Zipcode', 'Neighbourhood'])
+Airbnb_df = Airbnb_df.dropna(
+    subset=['Host Id', 'Review Scores Rating', 'Zipcode', 'Neighbourhood'])
 
 #Catelog Neighbourhood, Room type, Beds and Property Type
 Airbnb_df['Neighbourhood'] = Airbnb_df['Neighbourhood'].astype('category')
