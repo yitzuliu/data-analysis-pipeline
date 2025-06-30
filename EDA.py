@@ -35,6 +35,7 @@ if df is not None:
 else:
     print('No data loaded to check for missing values or data types.')
 
+
 # 5. Univariate analysis
 # (e.g., plot distributions of Price, Review Scores Rating, etc.)
 # Write your code for univariate plots below:
