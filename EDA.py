@@ -18,13 +18,22 @@ except Exception as e:
 
 # 3. Preview the dataset
 # (e.g., use head(), info(), describe() to understand the data)
-# Write your code to preview the data below:
-
+if df is not None:
+    print(df.head())           # Show the first 5 rows
+    print(df.info())           # Show data types and non-null counts
+    print(df.describe())       # Show summary statistics
+else:
+    print('No data loaded to preview.')
 
 # 4. Check for missing values and data types
 # (e.g., isnull().sum(), dtypes)
-# Write your code to check missing values and types below:
-
+if df is not None:
+    print('Missing values per column:')
+    print(df.isnull().sum())
+    print('\nData types:')
+    print(df.dtypes)
+else:
+    print('No data loaded to check for missing values or data types.')
 
 # 5. Univariate analysis
 # (e.g., plot distributions of Price, Review Scores Rating, etc.)
