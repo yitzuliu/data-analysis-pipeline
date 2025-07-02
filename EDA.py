@@ -71,232 +71,326 @@ else:
 # SECTION 4: UNIVARIATE ANALYSIS
 # =============================================================================
 
-# 4.1 Numerical Variables Distribution
-# Analyze: Price, Review Scores Rating, Number Of Reviews, Number of Records, Beds
-# Business Focus: Understanding pricing distribution, rating patterns, and booking frequency
+# # region 4.1 Numerical Variables Distribution
+# # Analyze: Price, Review Scores Rating, Number Of Reviews, Number of Records, Beds
+# # Business Focus: Understanding pricing distribution, rating patterns, and booking frequency
 
-# Write your code for univariate numerical analysis below:
-if df is not None:
-    # Set up figure size for numerical variables analysis
-    plt.figure(figsize=(18, 12))
+# if df is not None:
+#     # Set up figure size for numerical variables analysis
+#     plt.figure(figsize=(18, 12))
     
-    # Define numerical columns to analyze
-    numerical_cols = ['Price', 'Review Scores Rating', 'Number Of Reviews', 'Number of Records', 'Beds']
+#     # Define numerical columns to analyze
+#     numerical_cols = ['Price', 'Review Scores Rating', 'Number Of Reviews', 'Number of Records', 'Beds']
     
-    # Loop through numerical columns and create histograms and boxplots
-    for i, col in enumerate(numerical_cols):
-        # Create histograms with better bin settings and KDE
-        plt.subplot(3, len(numerical_cols), i+1)
-        if col == 'Price':
-            # Use more bins for price to show distribution details
-            # sns.histplot(df[col], kde=True, bins=30, color='darkblue')
-            sns.histplot(df[col].clip(upper=df[col].quantile(0.99)), kde=True, bins=30, color='darkblue')
-            plt.axvline(df[col].mean(), color='red', linestyle='--', label=f'Mean: ${df[col].mean():.2f}')
-            plt.axvline(df[col].median(), color='green', linestyle='-.', label=f'Median: ${df[col].median():.2f}')
-        else:
-            # Standard visualization for non-price numerical variables
-            sns.histplot(df[col], kde=True, bins=20, color='darkblue')
-            plt.axvline(df[col].mean(), color='red', linestyle='--', label=f'Mean: {df[col].mean():.2f}')
-            plt.axvline(df[col].median(), color='green', linestyle='-.', label=f'Median: {df[col].median():.2f}')
+#     # Loop through numerical columns and create histograms and boxplots
+#     for i, col in enumerate(numerical_cols):
+#         # Create histograms with better bin settings and KDE
+#         plt.subplot(3, len(numerical_cols), i+1)
+#         if col == 'Price':
+#             # Use more bins for price to show distribution details
+#             # sns.histplot(df[col], kde=True, bins=30, color='darkblue')
+#             sns.histplot(df[col].clip(upper=df[col].quantile(0.99)), kde=True, bins=30, color='darkblue')
+#             plt.axvline(df[col].mean(), color='red', linestyle='--', label=f'Mean: ${df[col].mean():.2f}')
+#             plt.axvline(df[col].median(), color='green', linestyle='-.', label=f'Median: ${df[col].median():.2f}')
+#         else:
+#             # Standard visualization for non-price numerical variables
+#             sns.histplot(df[col], kde=True, bins=20, color='darkblue')
+#             plt.axvline(df[col].mean(), color='red', linestyle='--', label=f'Mean: {df[col].mean():.2f}')
+#             plt.axvline(df[col].median(), color='green', linestyle='-.', label=f'Median: {df[col].median():.2f}')
  
-        plt.title(f'Distribution of {col}', fontdict={'fontsize': 9, 'weight': 'bold'})
-        plt.xlabel('')
-        plt.ylabel('')
-        plt.grid(True, alpha=0.3)
-        plt.legend(fontsize='small')
-        plt.tick_params(labelsize=8)
+#         plt.title(f'Distribution of {col}', fontdict={'fontsize': 9, 'weight': 'bold'})
+#         plt.xlabel('')
+#         plt.ylabel('')
+#         plt.grid(True, alpha=0.3)
+#         plt.legend(fontsize='small')
+#         plt.tick_params(labelsize=8)
         
-        # Create boxplots with enhanced styling
-        plt.subplot(3, len(numerical_cols), i+len(numerical_cols)+1)
-        sns.boxplot(x=df[col], color='skyblue', width=0.5)
-        plt.title(f'Boxplot of {col}', fontdict={'fontsize': 9, 'weight': 'bold'})
-        plt.xlabel('')
-        plt.ylabel('')
-        plt.grid(True, alpha=0.3)
+#         # Create boxplots with enhanced styling
+#         plt.subplot(3, len(numerical_cols), i+len(numerical_cols)+1)
+#         sns.boxplot(x=df[col], color='skyblue', width=0.5)
+#         plt.title(f'Boxplot of {col}', fontdict={'fontsize': 9, 'weight': 'bold'})
+#         plt.xlabel('')
+#         plt.ylabel('')
+#         plt.grid(True, alpha=0.3)
 
-        # Add descriptive statistics with improved formatting
-        plt.subplot(3, len(numerical_cols), i+(2*len(numerical_cols))+1)
-        plt.axis('off')
+#         # Add descriptive statistics with improved formatting
+#         plt.subplot(3, len(numerical_cols), i+(2*len(numerical_cols))+1)
+#         plt.axis('off')
         
-        # Format statistics
-        stats = df[col].describe()
+#         # Format statistics
+#         stats = df[col].describe()
         
-        # Add dollar sign for price, otherwise keep format consistent
-        prefix = "$" if col == "Price" else ""
-        suffix = "/100" if col == "Review Scores Rating" else ""
+#         # Add dollar sign for price, otherwise keep format consistent
+#         prefix = "$" if col == "Price" else ""
+#         suffix = "/100" if col == "Review Scores Rating" else ""
         
-        plt.text(0.1, 0.9, f"Mean: {prefix}{stats['mean']:.2f}{suffix}")
-        plt.text(0.1, 0.8, f"Median: {prefix}{stats['50%']:.2f}{suffix}")
-        plt.text(0.1, 0.7, f"Std Dev: {prefix}{stats['std']:.2f}")
-        plt.text(0.1, 0.6, f"Min: {prefix}{stats['min']:.2f}{suffix}")
-        plt.text(0.1, 0.5, f"Max: {prefix}{stats['max']:.2f}{suffix}")
-        plt.text(0.1, 0.4, f"Range: {prefix}{stats['max'] - stats['min']:.2f}")
+#         plt.text(0.1, 0.9, f"Mean: {prefix}{stats['mean']:.2f}{suffix}")
+#         plt.text(0.1, 0.8, f"Median: {prefix}{stats['50%']:.2f}{suffix}")
+#         plt.text(0.1, 0.7, f"Std Dev: {prefix}{stats['std']:.2f}")
+#         plt.text(0.1, 0.6, f"Min: {prefix}{stats['min']:.2f}{suffix}")
+#         plt.text(0.1, 0.5, f"Max: {prefix}{stats['max']:.2f}{suffix}")
+#         plt.text(0.1, 0.4, f"Range: {prefix}{stats['max'] - stats['min']:.2f}")
     
-    # Adjust spacing to reduce excessive margins and optimize layout
-    plt.subplots_adjust(hspace=0.2,  # Vertical space between rows
-                        left=0.05,   # Reduce left margin
-                        right=0.95,  # Increase usable right area
-                        top=0.95,    # Increase usable top area
-                        bottom=0.05) # Reduce bottom margin
+#     # Adjust spacing to reduce excessive margins and optimize layout
+#     plt.subplots_adjust(hspace=0.2,  # Vertical space between rows
+#                         left=0.05,   # Reduce left margin
+#                         right=0.95,  # Increase usable right area
+#                         top=0.95,    # Increase usable top area
+#                         bottom=0.05) # Reduce bottom margin
     
-    # Add a main title with adjusted position
-    plt.show()
+#     # Add a main title with adjusted position
+#     plt.show()
         
-    # Business insights from numerical variables
-    print("\n=== NUMERICAL VARIABLES BUSINESS INSIGHTS ===")
+#     # Business insights from numerical variables
+#     print("\n=== NUMERICAL VARIABLES BUSINESS INSIGHTS ===")
     
-    # Price insights
-    avg_price = df['Price'].mean()
-    median_price = df['Price'].median()
-    price_range = df['Price'].max() - df['Price'].min()
-    print(f"• Average listing price: ${avg_price:.2f}")
-    print(f"• Median listing price: ${median_price:.2f}")
-    print(f"• Price range: ${price_range:.2f}")
+#     # Price insights
+#     avg_price = df['Price'].mean()
+#     median_price = df['Price'].median()
+#     price_range = df['Price'].max() - df['Price'].min()
+#     print(f"• Average listing price: ${avg_price:.2f}")
+#     print(f"• Median listing price: ${median_price:.2f}")
+#     print(f"• Price range: ${price_range:.2f}")
     
-    # Reviews insights
-    avg_reviews = df['Number Of Reviews'].mean()
-    median_reviews = df['Number Of Reviews'].median()
-    print(f"• Average number of reviews per listing: {avg_reviews:.2f}")
-    print(f"• Median number of reviews per listing: {median_reviews:.2f}")
+#     # Reviews insights
+#     avg_reviews = df['Number Of Reviews'].mean()
+#     median_reviews = df['Number Of Reviews'].median()
+#     print(f"• Average number of reviews per listing: {avg_reviews:.2f}")
+#     print(f"• Median number of reviews per listing: {median_reviews:.2f}")
     
-    # Ratings insights
-    avg_rating = df['Review Scores Rating'].mean()
-    print(f"• Average rating: {avg_rating:.2f}/100")
+#     # Ratings insights
+#     avg_rating = df['Review Scores Rating'].mean()
+#     print(f"• Average rating: {avg_rating:.2f}/100")
     
-    # Beds insights
-    avg_beds = df['Beds'].mean()
-    print(f"• Average number of beds: {avg_beds:.2f}")
-    most_common_beds = df['Beds'].mode()[0]
-    print(f"• Most common bed configuration: {most_common_beds}")
-else:
-    print('No data loaded to analyze numerical variable distributions.')
+#     # Beds insights
+#     avg_beds = df['Beds'].mean()
+#     print(f"• Average number of beds: {avg_beds:.2f}")
+#     most_common_beds = df['Beds'].mode()[0]
+#     print(f"• Most common bed configuration: {most_common_beds}")
+# else:
+#     print('No data loaded to analyze numerical variable distributions.')
+# #endregion
 
-# # 4.2 Categorical Variables Distribution
+# # region 4.2 Categorical Variables Distribution
 # # Analyze: Neighbourhood, Zipcode, Property Type, Room Type
-# # Business Focus: Identifying popular areas, property types, and listing configurations
+# # Business Focus: Identifying popular areas, property types, and pricing strategies by segment
 
-# # Write your code for categorical univariate analysis below:
 # if df is not None:
 #     # Set up figure size for categorical variables analysis
-#     plt.figure(figsize=(20, 16))
+#     plt.figure(figsize=(20, 18))
     
 #     # Define categorical columns to analyze
 #     categorical_cols = ['Neighbourhood', 'Zipcode', 'Property Type', 'Room Type']
     
+#     # Color palette for consistent visuals
+#     colors = plt.cm.tab10.colors
+    
 #     # Function to plot top N categories for a categorical variable
-#     def plot_top_categories(data, column, ax, top_n=10, title=None):
+#     def plot_top_categories(data, column, axis, top_n=10, title=None, color=None):
 #         counts = data[column].value_counts().nlargest(top_n)
-#         counts.plot(kind='bar', ax=ax)
-#         ax.set_title(title if title else f'Top {top_n} {column}s')
-#         ax.set_ylabel('Count')
-#         ax.grid(True, alpha=0.3)
+#         bars = counts.plot(kind='bar', ax=axis, color=color)
+#         axis.set_title(title if title else f'Top {top_n} {column}s', fontdict={'fontsize': 9, 'weight': 'bold'})
+#         axis.grid(True, axis='y', alpha=0.3, linestyle='--')
+        
+#         # Add percentage labels to bars
+#         total = len(data)
 #         for i, v in enumerate(counts):
-#             ax.text(i, v + 0.1, str(v), ha='center')
+#             percentage = (v / total) * 100
+#             axis.text(i, v + 0.1, f"{v}\n({percentage:.1f}%)", ha='center', fontsize= 8)
+        
+#         # Improve x-axis labels and y-axis labels
+#         plt.setp(axis.xaxis.get_majorticklabels(), rotation=45, ha='right', rotation_mode='anchor', fontsize=8)
+#         plt.setp(axis.yaxis.get_majorticklabels(), fontsize=8)
+        
 #         return counts
     
-#     # Function to calculate and display category percentages
+#     # Function to calculate and display category percentages with business insights
 #     def display_category_percentages(data, column, top_n=10):
 #         total = len(data)
 #         counts = data[column].value_counts().nlargest(top_n)
 #         percentages = (counts / total * 100).round(1)
         
+#         # Calculate average price by category
+#         category_prices = data.groupby(column)['Price'].agg(['mean', 'median', 'count'])
+#         category_prices = category_prices.loc[counts.index]
+        
 #         print(f"\n=== {column.upper()} DISTRIBUTION ===")
 #         for cat, count in counts.items():
 #             pct = percentages[cat]
-#             print(f"• {cat}: {count} listings ({pct}% of market)")
+#             avg_price = category_prices.loc[cat, 'mean']
+#             median_price = category_prices.loc[cat, 'median']
+#             print(f"• {cat}: {count} listings ({pct}% of market) | Avg Price: ${avg_price:.0f} | Median: ${median_price:.0f}")
         
 #         # Calculate concentration
 #         top_concentration = percentages.sum()
 #         print(f"• Market concentration: Top {top_n} {column.lower()}s represent {top_concentration:.1f}% of all listings")
+        
+#         # Price comparison
+#         overall_avg = data['Price'].mean()
+#         highest_price_cat = category_prices['mean'].idxmax()
+#         highest_price = category_prices.loc[highest_price_cat, 'mean']
+#         print(f"• Pricing insights: {highest_price_cat} has the highest average price (${highest_price:.0f} vs. overall ${overall_avg:.0f})")
     
-#     # Plot Neighbourhood distribution
-#     ax1 = plt.subplot(2, 2, 1)
-#     top_neighborhoods = plot_top_categories(df, 'Neighbourhood', ax1, top_n=10, 
-#                                            title='Top 10 Neighbourhoods by Listing Count')
-#     plt.xticks(rotation=45, ha='right')
+#     # Plot Neighbourhood distribution (first column, first row)
+#     ax1 = plt.subplot(3, 2, 1)
+#     top_neighborhoods = plot_top_categories(df, 'Neighbourhood', ax1, top_n=10,title='Top Neighbourhoods by Listing Count', color=colors[0])
     
-#     # Plot Zipcode distribution
-#     ax2 = plt.subplot(2, 2, 2)
-#     top_zipcodes = plot_top_categories(df, 'Zipcode', ax2, top_n=10,
-#                                       title='Top 10 Zipcodes by Listing Count')
-#     plt.xticks(rotation=45)
+#     # Plot Zipcode distribution (first column, second row)
+#     ax3 = plt.subplot(3, 2, 3)
+#     top_zipcodes = plot_top_categories(df, 'Zipcode', ax3, top_n=10,title='Top 10 Zipcodes by Listing Count', color=colors[1])
     
-#     # Plot Property Type distribution
-#     ax3 = plt.subplot(2, 2, 3)
-#     top_property_types = plot_top_categories(df, 'Property Type', ax3, top_n=10,
-#                                             title='Top 10 Property Types')
-#     plt.xticks(rotation=45, ha='right')
+#     # Plot Property Type distribution (first column, third row)
+#     ax5 = plt.subplot(3, 2, 5)
+#     top_property_types = plot_top_categories(df, 'Property Type', ax5, top_n=10, title='Top 10 Property Types', color=colors[2])
     
-#     # Plot Room Type distribution
-#     ax4 = plt.subplot(2, 2, 4)
+#     # Plot Room Type distribution with pie chart for better proportion visualization (second column, first row)
+#     ax2 = plt.subplot(3, 2, 2)
 #     room_type_counts = df['Room Type'].value_counts()
-#     room_type_counts.plot(kind='bar', ax=ax4)
-#     ax4.set_title('Room Type Distribution')
-#     ax4.set_ylabel('Count')
-#     ax4.grid(True, alpha=0.3)
-#     for i, v in enumerate(room_type_counts):
-#         ax4.text(i, v + 0.1, str(v), ha='center')
     
-#     plt.tight_layout()
-#     plt.suptitle("Categorical Variables Analysis", fontsize=16, y=1.02)
+#     # Create pie chart for Room Type with no labels beside the slices, only percentages inside
+#     wedges, _, autotexts = ax2.pie(
+#         room_type_counts, 
+#         labels=None,
+#         autopct='%1.1f%%',
+#         shadow=False, 
+#         startangle=90,
+#         colors=colors[3:6],
+#     )
+
+#     # Create a legend with room type information
+#     ax2.legend(wedges, room_type_counts.index, title="Room Types", loc="center left", bbox_to_anchor=(0.85, 0.5))
+    
+#     # Style the percentage text inside slices
+#     plt.setp(autotexts, size=9, weight="bold", color="white")
+        
+#     ax2.set_title('Room Type Distribution', fontdict={'fontsize': 9, 'weight': 'bold'})
+#     ax2.axis('equal')  
+    
+#     # Add price comparison by Room Type (second column, second row)
+#     ax4 = plt.subplot(3, 2, 4)
+#     room_price_data = df.groupby('Room Type')['Price'].agg(['mean', 'median']).reset_index()
+    
+#     # Create a grouped bar chart for price comparison
+#     x = range(len(room_price_data))
+#     width = 0.35
+#     ax4.bar([i - width/2 for i in x], room_price_data['mean'], width, label='Average', color=colors[6])
+#     ax4.bar([i + width/2 for i in x], room_price_data['median'], width, label='Median', color=colors[7])
+    
+#     # Add data labels to bars
+#     for i in x:
+#         ax4.text(i - width/2, room_price_data['mean'][i] + 5, f"${room_price_data['mean'][i]:.0f}", ha='center', fontsize=8)
+#         ax4.text(i + width/2, room_price_data['median'][i] + 5, f"${room_price_data['median'][i]:.0f}", ha='center', fontsize=8)
+    
+#     ax4.set_title('Price by Room Type', fontdict={'fontsize': 10, 'weight': 'bold'})
+#     ax4.set_ylabel('Price ($)', fontdict={'fontsize': 10})
+#     ax4.set_xticks(x)
+#     ax4.set_xticklabels(room_price_data['Room Type'])
+#     ax4.grid(True, axis='y', alpha=0.3, linestyle='--')
+#     ax4.legend()
+    
+#     # Set font size for X and Y axis tick labels
+#     plt.setp(ax4.xaxis.get_majorticklabels(), fontsize= 8)
+#     plt.setp(ax4.yaxis.get_majorticklabels(), fontsize= 8)
+    
+#     # Add price comparison by Neighbourhood (second column, third row)
+#     ax6 = plt.subplot(3, 2, 6)
+#     neighbourhood_price = df.groupby('Neighbourhood')['Price'].agg(['mean', 'median', 'count']).sort_values('mean', ascending= True)
+    
+#     # Create horizontal bar chart for neighborhood prices
+#     bars = ax6.barh(neighbourhood_price.index, neighbourhood_price['mean'], color=colors[8])
+#     ax6.set_title('Average Price by Neighbourhood', fontdict={'fontsize': 10, 'weight': 'bold'})
+#     ax6.set_xlabel('Price ($)', fontdict={'fontsize': 9})
+#     ax6.grid(True, axis='x', alpha=0.3, linestyle='--')
+    
+#     # Add count and price labels
+#     for i, bar in enumerate(bars):
+#         neighborhood = neighbourhood_price.index[i]
+#         count = neighbourhood_price.loc[neighborhood, 'count']
+#         price = neighbourhood_price.loc[neighborhood, 'mean']
+#         ax6.text(price + 5, i, f"${price:.0f} | {count} listings", va='center', fontsize= 8)
+    
+#     plt.tight_layout(pad=3.0)
+#     plt.subplots_adjust(hspace=0.35, wspace=0.25, top=0.92)
+#     plt.suptitle("Categorical Variables Analysis - Market Segments and Pricing", fontsize=18, y=0.98)
 #     plt.show()
     
 #     # Print business insights about categorical variables
 #     print("\n=== CATEGORICAL VARIABLES BUSINESS INSIGHTS ===")
     
-#     # Display category percentages
+#     # Display category percentages with enhanced business metrics
 #     for col in categorical_cols:
-#         top_n = 5 if col in ['Neighbourhood', 'Zipcode', 'Property Type'] else 10
+#         top_n = 5 if col in ['Neighbourhood', 'Zipcode'] else 8 if col == 'Property Type' else len(df[col].unique())
 #         display_category_percentages(df, col, top_n=top_n)
     
-#     # Additional market insights
-#     print("\n=== MARKET STRUCTURE INSIGHTS ===")
+#     # Additional market insights with business focus
+#     print("\n=== MARKET STRUCTURE & PRICING INSIGHTS ===")
     
-#     # Calculate market concentration (Herfindahl-Hirschman Index simplified)
+#     # Calculate market concentration metrics
 #     total_listings = len(df)
     
-#     # Neighborhood concentration
-#     neighborhood_shares = df['Neighbourhood'].value_counts() / total_listings
-#     top_neighborhood = df['Neighbourhood'].value_counts().index[0]
-#     top_neighborhood_share = neighborhood_shares.iloc[0] * 100
-#     print(f"• Most saturated neighborhood: {top_neighborhood} ({top_neighborhood_share:.1f}% of listings)")
+#     # Neighborhood concentration and pricing premium
+#     neighborhood_data = df.groupby('Neighbourhood').agg({
+#         'Host Id': 'count',
+#         'Price': ['mean', 'median', 'std']
+#     })
+#     neighborhood_data.columns = ['Listings', 'Avg_Price', 'Median_Price', 'Price_Std']
+#     neighborhood_data['Market_Share'] = (neighborhood_data['Listings'] / total_listings * 100).round(1)
+#     neighborhood_data['Price_Premium'] = ((neighborhood_data['Avg_Price'] / df['Price'].mean() - 1) * 100).round(1)
+    
+#     # Most expensive neighborhood
+#     most_expensive = neighborhood_data.sort_values('Avg_Price', ascending=False).index[0]
+#     premium_pct = neighborhood_data.loc[most_expensive, 'Price_Premium']
+#     print(f"• Premium neighborhood: {most_expensive} commands {premium_pct:+.1f}% price premium vs. market average")
+    
+#     # Most popular neighborhood
+#     most_popular = neighborhood_data.sort_values('Listings', ascending=False).index[0]
+#     market_share = neighborhood_data.loc[most_popular, 'Market_Share']
+#     print(f"• Market leader: {most_popular} holds {market_share:.1f}% market share with {int(neighborhood_data.loc[most_popular, 'Listings'])} listings")
     
 #     # Property type insights
-#     top_property = df['Property Type'].value_counts().index[0]
-#     top_property_share = (df['Property Type'].value_counts().iloc[0] / total_listings) * 100
-#     print(f"• Dominant property type: {top_property} ({top_property_share:.1f}% of market)")
+#     property_data = df.groupby('Property Type').agg({'Host Id': 'count','Price': ['mean', 'median']
+#     }).iloc[:, :3]
+#     property_data.columns = ['Listings', 'Avg_Price', 'Median_Price']
+#     property_data['Market_Share'] = (property_data['Listings'] / total_listings * 100).round(1)
     
-#     # Room type insights
-#     entire_home_pct = (df[df['Room Type'] == 'Entire home/apt'].shape[0] / total_listings) * 100
-#     print(f"• Entire home/apt listings: {entire_home_pct:.1f}% of market")
+#     # Most profitable property type
+#     most_profitable = property_data.sort_values('Avg_Price', ascending=False).index[0]
+#     profit_premium = ((property_data.loc[most_profitable, 'Avg_Price'] / df['Price'].mean() - 1) * 100).round(1)
+#     print(f"• Highest revenue opportunity: {most_profitable} listings average ${property_data.loc[most_profitable, 'Avg_Price']:.0f}/night ({profit_premium:+.1f}% vs. market)")
     
-#     # Host concentration (if Host Id is available)
-#     if 'Host Id' in df.columns:
-#         unique_hosts = df['Host Id'].nunique()
-#         avg_listings_per_host = total_listings / unique_hosts
-#         print(f"• Average listings per host: {avg_listings_per_host:.2f}")
-        
-#         # Multi-listing hosts
-#         hosts_with_multiple = df['Host Id'].value_counts()[df['Host Id'].value_counts() > 1].count()
-#         pct_hosts_multiple = (hosts_with_multiple / unique_hosts) * 100
-#         print(f"• Hosts with multiple listings: {hosts_with_multiple} ({pct_hosts_multiple:.1f}% of all hosts)")
-        
-#         # Top host concentration
-#         top_host_listings = df['Host Id'].value_counts().max()
-#         pct_top_host = (top_host_listings / total_listings) * 100
-#         print(f"• Largest host controls {top_host_listings} listings ({pct_top_host:.1f}% of market)")
+#     # Room type insights with price premium calculation
+#     room_data = df.groupby('Room Type').agg({'Host Id': 'count','Price': ['mean', 'median']}).iloc[:, :3]
+#     room_data.columns = ['Listings', 'Avg_Price', 'Median_Price']
+#     room_data['Market_Share'] = (room_data['Listings'] / total_listings * 100).round(1)
+    
+#     # Entire home premium calculation
+#     if 'Entire home/apt' in room_data.index and 'Private room' in room_data.index:
+#         entire_home_premium = ((room_data.loc['Entire home/apt', 'Avg_Price'] / room_data.loc['Private room', 'Avg_Price'] - 1) * 100).round(1)
+#         print(f"• Entire home premium: {entire_home_premium:+.1f}% price premium over private rooms")
+    
+#     # Price-to-bed ratio analysis
+#     df['Price_per_Bed'] = df['Price'] / df['Beds']
+#     best_value_type = df.groupby('Property Type')['Price_per_Bed'].median().nsmallest(1).index[0]
+#     print(f"• Best value proposition: {best_value_type} offers lowest price-to-bed ratio")
+    
+#     # Most common property configuration
+#     most_common_config = df.groupby(['Property Type', 'Room Type']).size().nlargest(1)
+#     config_index = most_common_config.index[0]
+#     config_share = (most_common_config.iloc[0] / total_listings * 100).round(1)
+#     print(f"• Most common offering: {config_index[0]} with {config_index[1]} ({config_share:.1f}% of market)")
 # else:
 #     print('No data loaded to analyze categorical variable distributions.')
+# #endregion
 
-# # =============================================================================
-# # SECTION 5: BIVARIATE ANALYSIS
-# # =============================================================================
+# =============================================================================
+# SECTION 5: BIVARIATE ANALYSIS
+# =============================================================================
 
-# # 5.1 Location-based Analysis
-# # Analyze: 
-# # - Neighbourhood vs. listing count, price, reviews, ratings
-# # - Zipcode vs. listing count, price, reviews
-# # Business Focus: Identifying high-value locations and market saturation
+# 5.1 Location-based Analysis
+# Analyze: 
+# - Neighbourhood vs. listing count, price, reviews, ratings
+# - Zipcode vs. listing count, price, reviews
+# Business Focus: Identifying high-value locations and market saturation
 
 # # Write your code for location-based analysis below:
 # if df is not None:
@@ -960,12 +1054,12 @@ else:
     
 #     # Room Type Insights
 #     try:
-#         room_price_avg = df.groupby('Room Type')['Price'].mean().sort_values(ascending=False)
-        
-#         for idx, price in room_price_avg.items():
-#             premium_pct = ((price - avg_price) / avg_price) * 100
+#         room_price_avg = df.groupby('Room Type')['Price'].agg(['mean', 'median', 'count']).sort_values('mean', ascending=False)
+    
+#         for idx, row in room_price_avg.iterrows():
+#             premium_pct = ((row['mean'] - overall_avg_price) / overall_avg_price) * 100
 #             premium_txt = f"{premium_pct:.1f}% premium" if premium_pct > 0 else f"{abs(premium_pct):.1f}% discount"
-#             print(f"• {idx}: ${price:.2f} ({premium_txt} vs. market average)")
+#             print(f"• {idx}: ${row['mean']:.2f} ({premium_txt} vs. market average)")
 #     except:
 #         print("• Detailed room type price analysis not available")
     
