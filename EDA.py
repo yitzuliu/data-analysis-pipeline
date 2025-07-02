@@ -386,168 +386,295 @@ else:
 # SECTION 5: BIVARIATE ANALYSIS
 # =============================================================================
 
+# =============================================================================
 # 5.1 Location-based Analysis
+# =============================================================================
 # Analyze: 
 # - Neighbourhood vs. listing count, price, reviews, ratings
 # - Zipcode vs. listing count, price, reviews
 # Business Focus: Identifying high-value locations and market saturation
 
-# # Write your code for location-based analysis below:
-# if df is not None:
-#     # Set figure aesthetics for business presentation
-#     plt.figure(figsize=(20, 24))
+# Write your code for location-based analysis below:
+if df is not None:
+    # Set figure aesthetics for business presentation with consistent style
+    plt.figure(figsize=(20, 24))
     
-#     # 1. Neighbourhood vs. Listing Count (Top 15)
-#     plt.subplot(3, 2, 1)
-#     neighborhood_counts = df['Neighbourhood'].value_counts().nlargest(15)
-#     sns.barplot(x=neighborhood_counts.values, y=neighborhood_counts.index)
-#     plt.title('Top 15 Neighbourhoods by Listing Count')
-#     plt.xlabel('Number of Listings')
-#     plt.grid(True, alpha=0.3)
+    # Color palette for consistent visuals (matching Section 4.2)
+    colors = plt.cm.tab10.colors
     
-#     # 2. Neighbourhood vs. Average Price (Top 15 by count)
-#     plt.subplot(3, 2, 2)
-#     top_neighborhoods = df['Neighbourhood'].value_counts().nlargest(15).index
-#     neighborhood_avg_price = df[df['Neighbourhood'].isin(top_neighborhoods)].groupby('Neighbourhood')['Price'].mean().sort_values(ascending=False)
-#     sns.barplot(x=neighborhood_avg_price.values, y=neighborhood_avg_price.index)
-#     plt.title('Average Price by Top 15 Neighbourhoods')
-#     plt.xlabel('Average Price ($)')
-#     plt.grid(True, alpha=0.3)
+    # 1. Neighbourhood vs. Listing Count (Top 15)
+    ax1 = plt.subplot(3, 2, 1)
+    neighborhood_counts = df['Neighbourhood'].value_counts().nlargest(15)
+    bars = neighborhood_counts.plot(kind='barh', color=colors[0], ax=ax1)
+    ax1.set_title('Top 15 Neighbourhoods by Listing Count', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax1.set_xlabel('Number of Listings', fontdict={'fontsize': 9})
+    ax1.set_ylabel('')
+    ax1.grid(True, axis='x', alpha=0.3, linestyle='--')
     
-#     # 3. Neighbourhood vs. Average Rating (Top 15 by count)
-#     plt.subplot(3, 2, 3)
-#     neighborhood_avg_rating = df[df['Neighbourhood'].isin(top_neighborhoods)].groupby('Neighbourhood')['Review Scores Rating'].mean().sort_values(ascending=False)
-#     sns.barplot(x=neighborhood_avg_rating.values, y=neighborhood_avg_rating.index)
-#     plt.title('Average Rating by Top 15 Neighbourhoods')
-#     plt.xlabel('Average Review Score Rating')
-#     plt.grid(True, alpha=0.3)
+    # Add count and percentage labels with consistent formatting
+    total = len(df)
+    for i, v in enumerate(neighborhood_counts):
+        percentage = (v / total) * 100
+        ax1.text(v + 1, i, f"{v} ({percentage:.1f}%)", va='center', fontsize=8)
     
-#     # 4. Neighbourhood vs. Price (Boxplot for top 10 neighborhoods)
-#     plt.subplot(3, 2, 4)
-#     top10_neighborhoods = df['Neighbourhood'].value_counts().nlargest(10).index
-#     sns.boxplot(x='Neighbourhood', y='Price', data=df[df['Neighbourhood'].isin(top10_neighborhoods)])
-#     plt.title('Price Distribution by Top 10 Neighbourhoods')
-#     plt.xlabel('Neighbourhood')
-#     plt.ylabel('Price ($)')
-#     plt.xticks(rotation=45)
-#     plt.grid(True, alpha=0.3)
+    # Set font size for axis labels
+    plt.setp(ax1.yaxis.get_majorticklabels(), fontsize=8)
+    plt.setp(ax1.xaxis.get_majorticklabels(), fontsize=8)
     
-#     # 5. Zipcode vs. Listing Count (Top 15)
-#     plt.subplot(3, 2, 5)
-#     zipcode_counts = df['Zipcode'].value_counts().nlargest(15)
-#     sns.barplot(x=zipcode_counts.values, y=zipcode_counts.index)
-#     plt.title('Top 15 Zipcodes by Listing Count')
-#     plt.xlabel('Number of Listings')
-#     plt.grid(True, alpha=0.3)
+    # 2. Neighbourhood vs. Average Price (Top 15 by count)
+    ax2 = plt.subplot(3, 2, 2)
+    top_neighborhoods = df['Neighbourhood'].value_counts().nlargest(15).index
+    neighborhood_avg_price = df[df['Neighbourhood'].isin(top_neighborhoods)].groupby('Neighbourhood')['Price'].mean().sort_values(ascending=True)
+    bars = neighborhood_avg_price.plot(kind='barh', color=colors[1], ax=ax2)
+    ax2.set_title('Average Price by Top 15 Neighbourhoods', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax2.set_xlabel('Average Price ($)', fontdict={'fontsize': 9})
+    ax2.set_ylabel('', fontdict={'fontsize': 9})
+    ax2.grid(True, axis='x', alpha=0.3, linestyle='--')
     
-#     # 6. Zipcode vs. Average Price (Top 15 by count)
-#     plt.subplot(3, 2, 6)
-#     top_zipcodes = df['Zipcode'].value_counts().nlargest(15).index
-#     zipcode_avg_price = df[df['Zipcode'].isin(top_zipcodes)].groupby('Zipcode')['Price'].mean().sort_values(ascending=False)
-#     sns.barplot(x=zipcode_avg_price.values, y=zipcode_avg_price.index)
-#     plt.title('Average Price by Top 15 Zipcodes')
-#     plt.xlabel('Average Price ($)')
-#     plt.grid(True, alpha=0.3)
+    # Add price labels with dollar sign formatting
+    for i, v in enumerate(neighborhood_avg_price):
+        ax2.text(v + 1, i, f"${v:.0f}", va='center', fontsize=8)
     
-#     plt.tight_layout()
-#     plt.suptitle("Location-Based Analysis", fontsize=16, y=1.02)
-#     plt.show()
+    # Set font size for axis labels
+    plt.setp(ax2.yaxis.get_majorticklabels(), fontsize=8)
+    plt.setp(ax2.xaxis.get_majorticklabels(), fontsize=8)
     
-#     # Calculate and print business insights related to location
-#     print("\n=== LOCATION-BASED BUSINESS INSIGHTS ===")
+    # 3. Neighbourhood vs. Average Rating (Top 15 by count)
+    ax3 = plt.subplot(3, 2, 3)
+    neighborhood_avg_rating = df[df['Neighbourhood'].isin(top_neighborhoods)].groupby('Neighbourhood')['Review Scores Rating'].mean().sort_values(ascending=True)
+    bars = neighborhood_avg_rating.plot(kind='barh', color=colors[2], ax=ax3)
+    ax3.set_title('Average Rating by Top 15 Neighbourhoods', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax3.set_xlabel('Average Review Score Rating (out of 100)', fontdict={'fontsize': 9})
+    ax3.set_ylabel('', fontdict={'fontsize': 9})
+    ax3.grid(True, axis='x', alpha=0.3, linestyle='--')
     
-#     # 1. Identify highest value neighborhoods (price/rating ratio)
-#     neighborhood_metrics = df.groupby('Neighbourhood').agg({
-#         'Price': 'mean',
-#         'Review Scores Rating': 'mean',
-#         'Number Of Reviews': 'mean',
-#         'Host Id': 'count'
-#     }).rename(columns={'Host Id': 'Listing_Count'})
+    # Add rating labels with consistent formatting
+    for i, v in enumerate(neighborhood_avg_rating):
+        ax3.text(v + 0.5, i, f"{v:.1f}/100", va='center', fontsize=8)
     
-#     # Calculate value score (rating / price ratio - higher means better value)
-#     neighborhood_metrics['Value_Score'] = neighborhood_metrics['Review Scores Rating'] / neighborhood_metrics['Price']
+    # Set font size for axis labels
+    plt.setp(ax3.yaxis.get_majorticklabels(), fontsize=8)
+    plt.setp(ax3.xaxis.get_majorticklabels(), fontsize=8)
     
-#     # Filter to neighborhoods with at least 5 listings
-#     popular_neighborhoods = neighborhood_metrics[neighborhood_metrics['Listing_Count'] >= 5]
+    # 4. Neighbourhood vs. Price (Boxplot for top 10 neighborhoods, clipped at 95th percentile)
+    ax4 = plt.subplot(3, 2, 4)
+    top10_neighborhoods = df['Neighbourhood'].value_counts().nlargest(10).index
     
-#     # Top 5 highest priced neighborhoods
-#     top_price_neighborhoods = popular_neighborhoods.sort_values('Price', ascending=False).head(5)
-#     print("• Top 5 Premium Neighborhoods (highest average price):")
-#     for idx, row in top_price_neighborhoods.iterrows():
-#         print(f"  - {idx}: ${row['Price']:.2f}, Rating: {row['Review Scores Rating']:.1f}/100, {row['Listing_Count']} listings")
+    # Create filtered dataframe for cleaner visualization (removing extreme outliers)
+    filtered_df_for_boxplot = df[df['Neighbourhood'].isin(top10_neighborhoods)].copy()
     
-#     # Top 5 highest rated neighborhoods
-#     top_rated_neighborhoods = popular_neighborhoods.sort_values('Review Scores Rating', ascending=False).head(5)
-#     print("\n• Top 5 Highest Rated Neighborhoods:")
-#     for idx, row in top_rated_neighborhoods.iterrows():
-#         print(f"  - {idx}: {row['Review Scores Rating']:.1f}/100, ${row['Price']:.2f}, {row['Listing_Count']} listings")
+    # Calculate 95th percentile of prices for better visualization
+    price_95th_percentile = filtered_df_for_boxplot['Price'].quantile(0.95)
     
-#     # Top 5 best value neighborhoods (high rating/price ratio)
-#     top_value_neighborhoods = popular_neighborhoods.sort_values('Value_Score', ascending=False).head(5)
-#     print("\n• Top 5 Best Value Neighborhoods (highest rating-to-price ratio):")
-#     for idx, row in top_value_neighborhoods.iterrows():
-#         print(f"  - {idx}: Rating {row['Review Scores Rating']:.1f}/100 at ${row['Price']:.2f}, {row['Listing_Count']} listings")
+    # Clip prices at 95th percentile for visualization purposes only
+    filtered_df_for_boxplot['Price_Clipped'] = filtered_df_for_boxplot['Price'].clip(upper=price_95th_percentile)
     
-#     # Identify potential investment opportunities (high ratings but below average prices)
-#     avg_price = df['Price'].mean()
-#     opportunity_neighborhoods = popular_neighborhoods[(popular_neighborhoods['Review Scores Rating'] > 85) & 
-#                                                     (popular_neighborhoods['Price'] < avg_price)].sort_values('Review Scores Rating', ascending=False)
+    # Create boxplot with clipped prices - using consistent color without warnings
+    sns.boxplot(x='Neighbourhood', y='Price_Clipped', data=filtered_df_for_boxplot, color=colors[3], ax=ax4)
+    ax4.set_title('Price Distribution by Top 10 Neighbourhoods (95th Percentile)', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax4.set_xlabel('', fontdict={'fontsize': 9})
+    ax4.set_ylabel('Price ($, clipped at 95th percentile)', fontdict={'fontsize': 9})
+    plt.setp(ax4.xaxis.get_majorticklabels(), rotation=45, ha='right', rotation_mode='anchor', fontsize=8)
+    ax4.grid(True, axis='y', alpha=0.3, linestyle='--')
     
-#     if not opportunity_neighborhoods.empty:
-#         print("\n• Investment Opportunity Neighborhoods (high ratings but below average prices):")
-#         for idx, row in opportunity_neighborhoods.head(5).iterrows():
-#             value_percent = ((avg_price - row['Price']) / avg_price) * 100
-#             print(f"  - {idx}: Rating {row['Review Scores Rating']:.1f}/100, ${row['Price']:.2f} ({value_percent:.1f}% below market avg)")
+    # Add median price annotations with dollar sign formatting
+    for i, neighborhood in enumerate(top10_neighborhoods):
+        median_price = df[df['Neighbourhood'] == neighborhood]['Price'].median()
+        p95_price = df[df['Neighbourhood'] == neighborhood]['Price'].quantile(0.95)
+        ax4.text(i, median_price + 5, f"${median_price:.0f}", ha='center', fontsize=8, rotation=0)
+        
+    # Add note about clipping
+    ax4.text(0.5, 0.97, f"Note: Prices clipped at ${price_95th_percentile:.0f} (95th percentile)", 
+             transform=ax4.transAxes, ha='center', fontsize=7, style='italic')
     
-#     # Market saturation analysis
-#     total_listings = len(df)
-#     neighborhood_concentration = neighborhood_metrics['Listing_Count'] / total_listings * 100
-#     top_concentration = neighborhood_concentration.nlargest(5).sum()
-#     print(f"\n• Market Concentration: Top 5 neighborhoods contain {top_concentration:.1f}% of all listings")
-# else:
-#     print('No data loaded to analyze location-based relationships.')
+    # Set font size for axis labels
+    plt.setp(ax4.yaxis.get_majorticklabels(), fontsize=8)
+    
+    # 5. Zipcode vs. Listing Count (Top 15)
+    ax5 = plt.subplot(3, 2, 5)
+    zipcode_counts = df['Zipcode'].value_counts().nlargest(15)
+    bars = zipcode_counts.plot(kind='barh', color=colors[4], ax=ax5)
+    ax5.set_title('Top 15 Zipcodes by Listing Count', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax5.set_xlabel('Number of Listings', fontdict={'fontsize': 9})
+    ax5.set_ylabel('', fontdict={'fontsize': 9})
+    ax5.grid(True, axis='x', alpha=0.3, linestyle='--')
+    
+    # Add count and percentage labels with consistent formatting
+    for i, v in enumerate(zipcode_counts):
+        percentage = (v / total) * 100
+        ax5.text(v + 1, i, f"{v} ({percentage:.1f}%)", va='center', fontsize=8)
+    
+    # Set font size for axis labels
+    plt.setp(ax5.yaxis.get_majorticklabels(), fontsize=8)
+    plt.setp(ax5.xaxis.get_majorticklabels(), fontsize=8)
+    
+    # 6. Zipcode vs. Average Price (Top 15 by count)
+    ax6 = plt.subplot(3, 2, 6)
+    top_zipcodes = df['Zipcode'].value_counts().nlargest(15).index
+    zipcode_avg_price = df[df['Zipcode'].isin(top_zipcodes)].groupby('Zipcode')['Price'].mean().sort_values(ascending=False)
+    bars = zipcode_avg_price.plot(kind='barh', color=colors[5], ax=ax6)
+    ax6.set_title('Average Price by Top 15 Zipcodes', fontdict={'fontsize': 10, 'weight': 'bold'})
+    ax6.set_xlabel('Average Price ($)', fontdict={'fontsize': 9})
+    ax6.set_ylabel('', fontdict={'fontsize': 9})
+    ax6.grid(True, axis='x', alpha=0.3, linestyle='--')
+    
+    # Add price labels with dollar sign formatting
+    for i, v in enumerate(zipcode_avg_price):
+        ax6.text(v + 1, i, f"${v:.0f}", va='center', fontsize=8)
+    
+    # Set font size for axis labels
+    plt.setp(ax6.yaxis.get_majorticklabels(), fontsize=8)
+    plt.setp(ax6.xaxis.get_majorticklabels(), fontsize=8)
+    
+    # Adjust spacing to optimize layout (matching Section 4.2)
+    plt.tight_layout(pad=3.0)
+    plt.subplots_adjust(hspace=0.35, wspace=0.25, top=0.92, left=0.1, right=0.95, bottom=0.05)
+    plt.suptitle("Location-Based Analysis - Market Distribution and Pricing", fontsize=18, y=0.98)
+    plt.show()
+    
+    # Calculate and print business insights related to location
+    print("\n=== LOCATION-BASED BUSINESS INSIGHTS ===")
+    
+    # 1. Identify highest value neighborhoods (price/rating ratio)
+    neighborhood_metrics = df.groupby('Neighbourhood').agg({
+        'Price': ['mean', 'median', 'std'],
+        'Review Scores Rating': 'mean',
+        'Number Of Reviews': 'mean',
+        'Host Id': 'count'
+    })
+    
+    # Flatten multi-level column index
+    neighborhood_metrics.columns = ['Avg_Price', 'Median_Price', 'Price_Std', 'Avg_Rating', 'Avg_Reviews', 'Listing_Count']
+    
+    # Calculate market share for each neighborhood
+    total_listings = len(df)
+    
+    # Calculate market share percentages
+    # First calculate exact values, then round for display
+    exact_market_shares = (neighborhood_metrics['Listing_Count'] / total_listings * 100)
+    neighborhood_metrics['Market_Share'] = exact_market_shares.round(1)
+    
+    # Calculate price premium vs market average
+    neighborhood_metrics['Price_Premium'] = ((neighborhood_metrics['Avg_Price'] / df['Price'].mean() - 1) * 100).round(1)
+    
+    # Calculate value score (rating / price ratio - higher means better value)
+    neighborhood_metrics['Value_Score'] = neighborhood_metrics['Avg_Rating'] / neighborhood_metrics['Avg_Price']
+    
+    # Filter to neighborhoods with at least 5 listings
+    popular_neighborhoods = neighborhood_metrics[neighborhood_metrics['Listing_Count'] >= 5]
+    
+    # Top 5 highest priced neighborhoods
+    top_price_neighborhoods = popular_neighborhoods.sort_values('Avg_Price', ascending=False).head(5)
+    print("• Top 5 Premium Neighborhoods (highest average price):")
+    for idx, row in top_price_neighborhoods.iterrows():
+        print(f"  - {idx}: ${row['Avg_Price']:.0f}/night ({row['Price_Premium']:+.1f}% vs. market), Rating: {row['Avg_Rating']:.1f}/100, {row['Market_Share']}% market share")
+    
+    # Top 5 highest rated neighborhoods
+    top_rated_neighborhoods = popular_neighborhoods.sort_values('Avg_Rating', ascending=False).head(5)
+    print("\n• Top 5 Highest Rated Neighborhoods:")
+    for idx, row in top_rated_neighborhoods.iterrows():
+        print(f"  - {idx}: {row['Avg_Rating']:.1f}/100, ${row['Avg_Price']:.0f}/night ({row['Price_Premium']:+.1f}% vs. market), {row['Market_Share']}% market share")
+    
+    # Top 5 best value neighborhoods (high rating/price ratio)
+    top_value_neighborhoods = popular_neighborhoods.sort_values('Value_Score', ascending=False).head(5)
+    print("\n• Top 5 Best Value Neighborhoods (highest rating-to-price ratio):")
+    for idx, row in top_value_neighborhoods.iterrows():
+        print(f"  - {idx}: Rating {row['Avg_Rating']:.1f}/100 at ${row['Avg_Price']:.0f}/night, {row['Market_Share']}% market share")
+    
+    # Most popular neighborhoods by listing count
+    top_market_neighborhoods = popular_neighborhoods.sort_values('Listing_Count', ascending=False).head(5)
+    print("\n• Top 5 Market Leaders (highest listing count):")
+    for idx, row in top_market_neighborhoods.iterrows():
+        print(f"  - {idx}: {int(row['Listing_Count'])} listings ({row['Market_Share']}% market share), ${row['Avg_Price']:.0f}/night, Rating: {row['Avg_Rating']:.1f}/100")
+    
+    # Identify potential investment opportunities (high ratings but below average prices)
+    avg_price = df['Price'].mean()
+    opportunity_neighborhoods = popular_neighborhoods[(popular_neighborhoods['Avg_Rating'] > 85) & (popular_neighborhoods['Avg_Price'] < avg_price)].sort_values('Avg_Rating', ascending=False)
+    
+    if not opportunity_neighborhoods.empty:
+        print("\n• Investment Opportunity Neighborhoods (high ratings but below average prices):")
+        for idx, row in opportunity_neighborhoods.head(5).iterrows():
+            value_percent = ((avg_price - row['Avg_Price']) / avg_price) * 100
+            print(f"  - {idx}: Rating {row['Avg_Rating']:.1f}/100, ${row['Avg_Price']:.0f}/night ({value_percent:.1f}% below market avg), {row['Listing_Count']} listings")
+    
+    # Market saturation analysis
+    # Use the sorted values to get exact top 5 neighborhoods
+    top_neighborhoods = neighborhood_metrics.sort_values('Listing_Count', ascending=False).head(5)
+    
+    # Calculate the exact concentration using the raw listing counts for accuracy
+    top_concentration = (top_neighborhoods['Listing_Count'].sum() / total_listings * 100)
+    print(f"\n• Market Concentration: Top 5 neighborhoods contain {top_concentration:.1f}% of all listings")
+    
+    # Price volatility by neighborhood
+    top_price_volatility = neighborhood_metrics.sort_values('Price_Std', ascending=False).head(5)
+    print("\n• Price Volatility by Neighborhood (highest standard deviation):")
+    for idx, row in top_price_volatility.iterrows():
+        cv = (row['Price_Std'] / row['Avg_Price'] * 100).round(1)  # coefficient of variation
+        print(f"  - {idx}: Std Dev ${row['Price_Std']:.0f} (±{cv}% variation), Avg ${row['Avg_Price']:.0f}/night, {row['Listing_Count']} listings")
+        
+    # Create a Zipcode-Neighborhood mapping for better geographical understanding
+    print("\n=== ZIPCODE TO NEIGHBORHOOD MAPPING ===")
+    
+    # Create a mapping between zipcodes and neighborhoods
+    zipcode_neighborhood_map = df.groupby(['Zipcode', 'Neighbourhood']).size().reset_index()
+    zipcode_neighborhood_map.columns = ['Zipcode', 'Neighbourhood', 'Count']
+    
+    # For each zipcode, show which neighborhoods it contains
+    zipcode_groups = zipcode_neighborhood_map.groupby('Zipcode')
+    
+    # Show the top zipcodes and their neighborhoods
+    top_zipcodes_to_display = df['Zipcode'].value_counts().nlargest(10).index
+    
+    for zipcode in top_zipcodes_to_display:
+        neighborhoods_in_zipcode = zipcode_neighborhood_map[zipcode_neighborhood_map['Zipcode'] == zipcode].sort_values('Count', ascending=False)
+        
+        total_listings = neighborhoods_in_zipcode['Count'].sum()
+        print(f"\n• Zipcode {zipcode} ({total_listings} total listings):")
+        
+        for _, row in neighborhoods_in_zipcode.iterrows():
+            percentage = (row['Count'] / total_listings) * 100
+            print(f"  - {row['Neighbourhood']}: {row['Count']} listings ({percentage:.1f}% of zipcode)")
+    
+    
+else:
+    print('No data loaded to analyze location-based relationships.')
 
-# # 5.2 Property Characteristics Analysis
-# # Analyze:
-# # - Property Type vs. Price
-# # - Room Type vs. Price
-# # - Beds vs. Price
-# # Business Focus: Understanding pricing determinants and market segments
+# =============================================================================
+# 5.2 Property Characteristics Analysis
+# =============================================================================
+# 
+# NOTE: After analysis in Section 4, we found that Property Type, Room Type, and Beds variables
+# don't have enough variety for meaningful bivariate analysis (one category represents >60% of the data).
+# Therefore, we're excluding them from this section and will focus on more diverse variables in future analyses.
+#
+# Business Focus: Understanding pricing determinants and market segments
 
 # # Write your code for property characteristics analysis below:
 # if df is not None:
 #     # Set up figure for property characteristics analysis
-#     plt.figure(figsize=(20, 16))
+#     plt.figure(figsize=(15, 7))
     
-#     # 1. Property Type vs. Price (Top 10 property types)
-#     top_property_types = df['Property Type'].value_counts().nlargest(10).index
-#     property_price_data = df[df['Property Type'].isin(top_property_types)]
+#     # Alternative analysis: Review Score by Superhost Status
+#     plt.subplot(1, 2, 1)
+#     sns.boxplot(x='Host Is Superhost', y='Review Scores Rating', data=df)
+#     plt.title('Rating Distribution by Superhost Status')
+#     plt.xlabel('Superhost Status')
+#     plt.ylabel('Review Scores Rating')
+#     plt.grid(True, alpha=0.3)
     
-#     plt.subplot(2, 2, 1)
-#     sns.boxplot(x='Property Type', y='Price', data=property_price_data)
-#     plt.title('Price Distribution by Top 10 Property Types')
-#     plt.xticks(rotation=45, ha='right')
+#     # Alternative analysis: Price by Superhost Status
+#     plt.subplot(1, 2, 2)
+#     sns.boxplot(x='Host Is Superhost', y='Price', data=df)
+#     plt.title('Price Distribution by Superhost Status')
+#     plt.xlabel('Superhost Status')
 #     plt.ylabel('Price ($)')
 #     plt.grid(True, alpha=0.3)
     
-#     # 2. Room Type vs. Price
-#     plt.subplot(2, 2, 2)
-#     sns.boxplot(x='Room Type', y='Price', data=df)
-#     plt.title('Price Distribution by Room Type')
-#     plt.ylabel('Price ($)')
-#     plt.grid(True, alpha=0.3)
+#     plt.tight_layout()
+#     plt.suptitle("Superhost Analysis", fontsize=16, y=1.02)
+#     plt.show()
     
-#     # 3. Beds vs. Price (limited to common bed counts)
-#     common_beds = df['Beds'].value_counts().nlargest(6).index
-#     beds_price_data = df[df['Beds'].isin(common_beds)]
-    
-#     plt.subplot(2, 2, 3)
-#     sns.boxplot(x='Beds', y='Price', data=beds_price_data)
-#     plt.title('Price Distribution by Number of Beds')
-#     plt.ylabel('Price ($)')
-#     plt.grid(True, alpha=0.3)
-    
-#     # 4. Room Type vs. Average Rating
+#     # Additional interesting relationship: Accommodates vs Price
 #     plt.subplot(2, 2, 4)
 #     sns.barplot(x='Room Type', y='Review Scores Rating', data=df)
 #     plt.title('Average Rating by Room Type')
@@ -555,596 +682,124 @@ else:
 #     plt.grid(True, alpha=0.3)
     
 #     plt.tight_layout()
-#     plt.suptitle("Property Characteristics Analysis", fontsize=16, y=1.02)
+#     plt.suptitle("Superhost Analysis", fontsize=16, y=1.02)
 #     plt.show()
     
-#     # Business insights for property characteristics
-#     print("\n=== PROPERTY CHARACTERISTICS BUSINESS INSIGHTS ===")
+#     # Figure for Accommodates vs Price
+#     plt.figure(figsize=(12, 6))
+#     sns.boxplot(x='Accommodates', y='Price', data=df[df['Accommodates'] <= 8])
+#     plt.title('Price by Accommodation Capacity (up to 8 guests)')
+#     plt.xlabel('Number of Guests Accommodated')
+#     plt.ylabel('Price ($)')
+#     plt.grid(True, alpha=0.3)
+#     plt.tight_layout()
+#     plt.show()
     
-#     # Average price by property type (top 10)
-#     property_price_avg = df[df['Property Type'].isin(top_property_types)].groupby('Property Type')['Price'].agg(['mean', 'median', 'count']).sort_values('mean', ascending=False)
+#     # Business insights for alternative characteristics
+#     print("\n=== SUPERHOST & ACCOMMODATION BUSINESS INSIGHTS ===")
     
-#     print("• Property Type Pricing Analysis (Top 10 Types):")
-#     for idx, row in property_price_avg.head(10).iterrows():
-#         print(f"  - {idx}: Avg ${row['mean']:.2f}, Median ${row['median']:.2f}, {row['count']} listings")
-    
-#     # Premium calculation (% above overall average)
+#     # Superhost analysis
 #     overall_avg_price = df['Price'].mean()
-    
-#     print("\n• Premium Property Types (% above market average):")
-#     for idx, row in property_price_avg[property_price_avg['mean'] > overall_avg_price].iterrows():
-#         premium_pct = ((row['mean'] - overall_avg_price) / overall_avg_price) * 100
-#         print(f"  - {idx}: ${row['mean']:.2f} ({premium_pct:.1f}% premium)")
-    
-#     # Room type pricing analysis
-#     room_price_avg = df.groupby('Room Type')['Price'].agg(['mean', 'median', 'count']).sort_values('mean', ascending=False)
-    
-#     print("\n• Room Type Pricing Analysis:")
-#     for idx, row in room_price_avg.iterrows():
-#         premium_pct = ((row['mean'] - overall_avg_price) / overall_avg_price) * 100
-#         print(f"  - {idx}: Avg ${row['mean']:.2f}, Median ${row['median']:.2f}, {row['count']} listings ({premium_pct:.1f}% relative to market avg)")
-    
-#     # Price per bed analysis (efficiency metric)
-#     df['Price_per_Bed'] = df['Price'] / df['Beds'].replace(0, 1)  # Avoid division by zero
-    
-#     # Make sure we only analyze beds that have both price and price per bed data
-#     bed_analysis = df.groupby('Beds').agg({
-#         'Price': 'mean',
-#         'Price_per_Bed': 'mean'
-#     }).sort_values('Beds').head(8)  # Focus on common configurations
-    
-#     print("\n• Price Efficiency Analysis (Price per Bed):")
-#     print(f"  - Overall average price per bed: ${df['Price_per_Bed'].mean():.2f}")
-#     for beds, row in bed_analysis.iterrows():
-#         print(f"  - {beds} bed configuration: ${row['Price_per_Bed']:.2f} per bed (total ${row['Price']:.2f})")
-    
-#     # Best rated property types
-#     property_ratings = df.groupby('Property Type').agg({
-#         'Review Scores Rating': ['mean', 'count'],
-#         'Price': 'mean'
+#     superhost_analysis = df.groupby('Host Is Superhost').agg({
+#         'Price': ['mean', 'median', 'count'],
+#         'Review Scores Rating': 'mean'
 #     })
-#     property_ratings.columns = ['Avg_Rating', 'Listing_Count', 'Avg_Price']
-#     property_ratings = property_ratings[property_ratings['Listing_Count'] >= 5].sort_values('Avg_Rating', ascending=False)
+#     superhost_analysis.columns = ['Avg_Price', 'Median_Price', 'Listing_Count', 'Avg_Rating']
     
-#     print("\n• Highest Rated Property Types (min 5 listings):")
-#     for idx, row in property_ratings.head(5).iterrows():
-#         print(f"  - {idx}: Rating {row['Avg_Rating']:.1f}/100, Avg ${row['Avg_Price']:.2f}, {row['Listing_Count']} listings")
+#     print("• Superhost Impact Analysis:")
+#     for status, row in superhost_analysis.iterrows():
+#         price_diff = ((row['Avg_Price'] - overall_avg_price) / overall_avg_price) * 100
+#         print(f"  - {'Superhosts' if status else 'Regular hosts'}: ${row['Avg_Price']:.2f} avg price ({price_diff:.1f}% {'premium' if price_diff > 0 else 'discount'})")
+#         print(f"    Rating: {row['Avg_Rating']:.1f}/100, Listings: {row['Listing_Count']} ({row['Listing_Count']/len(df)*100:.1f}% of market)")
+    
+#     # Price by accommodation capacity
+#     accom_analysis = df.groupby('Accommodates').agg({
+#         'Price': ['mean', 'median', 'count'],
+#         'Review Scores Rating': 'mean'
+#     }).sort_values('Accommodates')
+#     accom_analysis.columns = ['Avg_Price', 'Median_Price', 'Listing_Count', 'Avg_Rating']
+    
+#     print("\n• Price by Accommodation Capacity:")
+#     for guests, row in accom_analysis.head(8).iterrows():
+#         price_per_guest = row['Avg_Price'] / guests if guests > 0 else 0
+#         print(f"  - {guests} guests: ${row['Avg_Price']:.2f} avg (${price_per_guest:.2f} per guest), {row['Listing_Count']} listings")
+    
+#     # Calculate price elasticity between accommodation sizes
+#     print("\n• Price Elasticity Between Accommodation Sizes:")
+#     prev_price = None
+#     prev_guests = None
+#     for guests, row in accom_analysis.iterrows():
+#         if prev_price is not None and prev_guests is not None:
+#             price_increase_pct = ((row['Avg_Price'] - prev_price) / prev_price) * 100
+#             capacity_increase_pct = ((guests - prev_guests) / prev_guests) * 100
+#             if capacity_increase_pct > 0:
+#                 elasticity = price_increase_pct / capacity_increase_pct
+#                 print(f"  - {prev_guests} → {guests} guests: {price_increase_pct:.1f}% price increase, elasticity: {elasticity:.2f}")
+        
+#         prev_price = row['Avg_Price']
+#         prev_guests = guests
 # else:
 #     print('No data loaded to analyze property characteristics.')
 
-# # =============================================================================
-# # SECTION 6: ADVANCED ANALYSIS
-# # =============================================================================
+# =============================================================================
+# SECTION 6: ADVANCED ANALYSIS (FUTURE WORK)
+# =============================================================================
 
-# # 6.1 Outlier Detection and Handling
-# # Business Focus: Identifying premium or undervalued properties and market anomalies
+# This section outlines planned advanced analyses that will be conducted in future iterations
+# of this project. These analyses will provide deeper insights into the Airbnb market dynamics.
 
-# # Write your code for outlier analysis below:
-# if df is not None:
-#     # Set up figure for outlier analysis
-#     plt.figure(figsize=(16, 10))
-    
-#     # Define numerical columns for outlier detection
-#     numerical_cols = ['Price', 'Review Scores Rating', 'Number Of Reviews', 'Number of Records']
-    
-#     # Calculate outlier boundaries using IQR method
-#     print("\n=== OUTLIER ANALYSIS ===")
-#     outliers_summary = {}
-    
-#     for col in numerical_cols:
-#         Q1 = df[col].quantile(0.25)
-#         Q3 = df[col].quantile(0.75)
-#         IQR = Q3 - Q1
-        
-#         lower_bound = Q1 - 1.5 * IQR
-#         upper_bound = Q3 + 1.5 * IQR
-        
-#         outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)]
-#         outliers_count = len(outliers)
-#         outliers_pct = (outliers_count / len(df)) * 100
-        
-#         outliers_summary[col] = {
-#             'count': outliers_count,
-#             'percentage': outliers_pct,
-#             'lower_bound': lower_bound,
-#             'upper_bound': upper_bound
-#         }
-        
-#         print(f"• {col}: {outliers_count} outliers ({outliers_pct:.2f}% of data)")
-#         print(f"  - Lower bound: {lower_bound:.2f}")
-#         print(f"  - Upper bound: {upper_bound:.2f}")
-    
-#     # Focus on price outliers for business insights
-#     price_outliers = df[(df['Price'] > outliers_summary['Price']['upper_bound'])]
-    
-#     # Analyze characteristics of premium properties (price outliers)
-#     if len(price_outliers) > 0:
-#         print("\n=== PREMIUM PROPERTY ANALYSIS (Price Outliers) ===")
-#         print(f"• Number of premium properties: {len(price_outliers)} ({(len(price_outliers)/len(df))*100:.2f}% of market)")
-#         print(f"• Average price of premium properties: ${price_outliers['Price'].mean():.2f}")
-#         print(f"• Average rating of premium properties: {price_outliers['Review Scores Rating'].mean():.2f}/100")
-        
-#         # Most common neighborhoods for premium properties
-#         premium_neighborhoods = price_outliers['Neighbourhood'].value_counts().head(5)
-#         print("\n• Top 5 Neighborhoods for Premium Properties:")
-#         for neighborhood, count in premium_neighborhoods.items():
-#             pct = (count / len(price_outliers)) * 100
-#             print(f"  - {neighborhood}: {count} properties ({pct:.1f}% of premium market)")
-        
-#         # Most common property types for premium properties
-#         premium_property_types = price_outliers['Property Type'].value_counts().head(5)
-#         print("\n• Top 5 Property Types for Premium Properties:")
-#         for prop_type, count in premium_property_types.items():
-#             pct = (count / len(price_outliers)) * 100
-#             print(f"  - {prop_type}: {count} properties ({pct:.1f}% of premium market)")
-    
-#     # Create visualization of price outliers by property type
-#     plt.subplot(2, 2, 1)
-#     sns.boxplot(x='Room Type', y='Price', data=df)
-#     plt.axhline(y=outliers_summary['Price']['upper_bound'], color='r', linestyle='--', label=f"Upper Bound (${outliers_summary['Price']['upper_bound']:.2f})")
-#     plt.title('Price Distribution and Outlier Boundary by Room Type')
-#     plt.ylabel('Price ($)')
-#     plt.legend()
-#     plt.grid(True, alpha=0.3)
-    
-#     # Create visualization of premium properties by neighborhood (top 10)
-#     if len(price_outliers) > 0:
-#         plt.subplot(2, 2, 2)
-#         top_premium_neighborhoods = price_outliers['Neighbourhood'].value_counts().nlargest(10)
-#         sns.barplot(x=top_premium_neighborhoods.values, y=top_premium_neighborhoods.index)
-#         plt.title('Top 10 Neighbourhoods for Premium Properties')
-#         plt.xlabel('Number of Premium Properties')
-#         plt.grid(True, alpha=0.3)
-    
-#     plt.tight_layout()
-#     plt.show()
+# Future advanced analysis work items:
 
-# # 6.2 Feature Correlations
-# # Business Focus: Understanding relationships between variables to inform pricing strategy
+# 6.1 Outlier Detection and Handling
+# • Use IQR method to identify outliers in price and ratings
+# • Analyze characteristics of high-value properties (location, type, amenities)
+# • Identify undervalued or overvalued properties
+# • Visualize outlier distribution across different property types
 
-# # Write your code for correlation analysis below:
-# if df is not None:
-#     # Create correlation matrix for numerical features
-#     numerical_features = df.select_dtypes(include=['int64', 'float64']).columns
-#     correlation_matrix = df[numerical_features].corr()
-    
-#     # Set up figure for correlation analysis
-#     plt.figure(figsize=(12, 10))
-    
-#     # Create heatmap of correlations
-#     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-#     plt.title('Correlation Matrix of Numerical Features')
-#     plt.xticks(rotation=45, ha='right')
-#     plt.yticks(rotation=0)
-#     plt.tight_layout()
-#     plt.show()
-    
-#     # Print business insights from correlations
-#     print("\n=== CORRELATION ANALYSIS BUSINESS INSIGHTS ===")
-    
-#     # Analyze price correlations
-#     price_correlations = correlation_matrix['Price'].sort_values(ascending=False)
-    
-#     print("• Factors influencing property pricing (correlation with Price):")
-#     for feature, correlation in price_correlations.items():
-#         if feature != 'Price':
-#             strength = "Strong" if abs(correlation) > 0.5 else "Moderate" if abs(correlation) > 0.3 else "Weak"
-#             direction = "positive" if correlation > 0 else "negative"
-#             print(f"  - {feature}: {correlation:.2f} ({strength} {direction} correlation)")
-    
-#     # Analyze rating correlations
-#     if 'Review Scores Rating' in correlation_matrix.columns:
-#         rating_correlations = correlation_matrix['Review Scores Rating'].sort_values(ascending=False)
-        
-#         print("\n• Factors influencing property ratings (correlation with Review Scores Rating):")
-#         for feature, correlation in rating_correlations.items():
-#             if feature != 'Review Scores Rating':
-#                 strength = "Strong" if abs(correlation) > 0.5 else "Moderate" if abs(correlation) > 0.3 else "Weak"
-#                 direction = "positive" if correlation > 0 else "negative"
-#                 print(f"  - {feature}: {correlation:.2f} ({strength} {direction} correlation)")
-    
-#     # Price-Rating relationship (if both exist)
-#     if 'Price' in correlation_matrix.columns and 'Review Scores Rating' in correlation_matrix.columns:
-#         price_rating_corr = correlation_matrix.loc['Price', 'Review Scores Rating']
-#         print(f"\n• Price-Rating Relationship: {price_rating_corr:.2f} correlation")
-        
-#         if abs(price_rating_corr) < 0.2:
-#             print("  - Business Insight: Price and ratings show little correlation, suggesting guests don't necessarily associate higher prices with better experiences.")
-#         elif price_rating_corr > 0:
-#             print("  - Business Insight: Positive correlation indicates higher-priced properties tend to receive better ratings, suggesting price premium may be justified.")
-#         else:
-#             print("  - Business Insight: Negative correlation suggests guests may have higher expectations for higher-priced properties, or potential overpricing in the market.")
+# 6.2 Feature Correlations Analysis
+# • Create correlation heatmaps for numerical features
+# • Analyze main factors influencing price
+# • Study relationships between ratings and other variables
+# • Extract valuable insights for pricing strategy
 
-# # 6.3 Temporal Analysis (if Host Since data is available)
-# # Business Focus: Analyzing host experience impact on pricing and ratings
+# 6.3 Temporal Analysis
+# • Analyze the impact of host experience on prices and ratings
+# • Categorize hosts by experience level (novice, established, veteran)
+# • Investigate the relationship between host experience and revenue potential
+# • Identify how experience affects guest satisfaction
 
-# # Write your code for temporal analysis below:
-# if df is not None and 'Host Since' in df.columns:
-#     # Convert Host Since to datetime if needed
-#     if not pd.api.types.is_datetime64_any_dtype(df['Host Since']):
-#         try:
-#             df['Host Since'] = pd.to_datetime(df['Host Since'])
-#             print("\n=== HOST EXPERIENCE ANALYSIS ===")
-#         except:
-#             print("Could not convert Host Since to datetime format")
-    
-#     if pd.api.types.is_datetime64_any_dtype(df['Host Since']):
-#         # Calculate host experience in days
-#         today = pd.to_datetime('today')
-#         df['Host_Experience_Days'] = (today - df['Host Since']).dt.days
-#         df['Host_Experience_Years'] = df['Host_Experience_Days'] / 365
-        
-#         # Group hosts by experience level
-#         df['Experience_Level'] = pd.cut(
-#             df['Host_Experience_Years'],
-#             bins=[0, 1, 3, 5, float('inf')],
-#             labels=['New (< 1 year)', 'Established (1-3 years)', 'Experienced (3-5 years)', 'Veteran (5+ years)']
-#         )
-        
-#         # Set up figure for host experience analysis
-#         plt.figure(figsize=(16, 10))
-        
-#         # Plot average price by host experience
-#         plt.subplot(2, 2, 1)
-#         sns.barplot(x='Experience_Level', y='Price', data=df)
-#         plt.title('Average Price by Host Experience Level')
-#         plt.ylabel('Average Price ($)')
-#         plt.grid(True, alpha=0.3)
-        
-#         # Plot average rating by host experience
-#         plt.subplot(2, 2, 2)
-#         sns.barplot(x='Experience_Level', y='Review Scores Rating', data=df)
-#         plt.title('Average Rating by Host Experience Level')
-#         plt.ylabel('Average Rating')
-#         plt.grid(True, alpha=0.3)
-        
-#         # Plot number of reviews by host experience
-#         plt.subplot(2, 2, 3)
-#         sns.barplot(x='Experience_Level', y='Number Of Reviews', data=df)
-#         plt.title('Average Number of Reviews by Host Experience Level')
-#         plt.ylabel('Average Number of Reviews')
-#         plt.grid(True, alpha=0.3)
-        
-#         # Plot host experience distribution
-#         plt.subplot(2, 2, 4)
-#         experience_counts = df['Experience_Level'].value_counts().sort_index()
-#         sns.barplot(x=experience_counts.index, y=experience_counts.values)
-#         plt.title('Distribution of Host Experience Levels')
-#         plt.ylabel('Number of Hosts')
-#         plt.grid(True, alpha=0.3)
-        
-#         plt.tight_layout()
-#         plt.suptitle("Host Experience Analysis", fontsize=16, y=1.02)
-#         plt.show()
-        
-#         # Print business insights about host experience
-#         print("\n• Host Experience Distribution:")
-#         for level, count in experience_counts.items():
-#             percentage = (count / len(df)) * 100
-#             print(f"  - {level}: {count} hosts ({percentage:.1f}% of market)")
-        
-#         # Experience level metrics
-#         experience_metrics = df.groupby('Experience_Level').agg({
-#             'Price': 'mean',
-#             'Review Scores Rating': 'mean',
-#             'Number Of Reviews': 'mean',
-#             'Host Id': 'count'
-#         }).rename(columns={'Host Id': 'Listing_Count'})
-        
-#         print("\n• Host Experience Impact Analysis:")
-#         for idx, row in experience_metrics.iterrows():
-#             print(f"  - {idx}:")
-#             print(f"    · Average Price: ${row['Price']:.2f}")
-#             print(f"    · Average Rating: {row['Review Scores Rating']:.1f}/100")
-#             print(f"    · Average Reviews: {row['Number Of Reviews']:.1f}")
-#             print(f"    · Listing Count: {row['Listing_Count']}")
-        
-#         # Price premium for experience
-#         base_price = experience_metrics.loc['New (< 1 year)', 'Price']
-#         for idx, row in experience_metrics.iterrows():
-#             if idx != 'New (< 1 year)':
-#                 premium = ((row['Price'] - base_price) / base_price) * 100
-#                 print(f"  - {idx} price premium: {premium:.1f}% above new hosts")
+# 6.4 Market Segmentation Analysis
+# • Create market segments based on price quartiles
+# • Analyze characteristics and differences between market segments
+# • Study property type distribution across different price points
+# • Provide targeted business recommendations for different market segments
 
-# # 6.4 Market Segmentation Analysis
-# # Business Focus: Identifying distinct market segments and their characteristics
+# =============================================================================
+# SECTION 7: BUSINESS INSIGHTS & RECOMMENDATIONS (FUTURE WORK)
+# =============================================================================
 
-# # Write your code for segmentation analysis below:
-# if df is not None:
-#     print("\n=== MARKET SEGMENTATION ANALYSIS ===")
-    
-#     # Create market segments based on price tiers
-#     price_quantiles = df['Price'].quantile([0, 0.25, 0.5, 0.75, 1.0])
-    
-#     df['Price_Segment'] = pd.cut(
-#         df['Price'],
-#         bins=[0, price_quantiles[0.25], price_quantiles[0.5], price_quantiles[0.75], float('inf')],
-#         labels=['Budget', 'Economy', 'Mid-range', 'Premium']
-#     )
-    
-#     # Set up figure for market segmentation analysis
-#     plt.figure(figsize=(16, 12))
-    
-#     # Plot segment sizes
-#     plt.subplot(2, 2, 1)
-#     segment_counts = df['Price_Segment'].value_counts().sort_index()
-#     sns.barplot(x=segment_counts.index, y=segment_counts.values)
-#     plt.title('Market Size by Price Segment')
-#     plt.ylabel('Number of Listings')
-#     plt.grid(True, alpha=0.3)
-    
-#     # Plot average ratings by segment
-#     plt.subplot(2, 2, 2)
-#     sns.barplot(x='Price_Segment', y='Review Scores Rating', data=df, order=['Budget', 'Economy', 'Mid-range', 'Premium'])
-#     plt.title('Average Rating by Price Segment')
-#     plt.ylabel('Average Rating')
-#     plt.grid(True, alpha=0.3)
-    
-#     # Plot most common property types by segment
-#     plt.subplot(2, 2, 3)
-#     segment_property_counts = pd.crosstab(df['Price_Segment'], df['Property Type']).apply(lambda x: x / x.sum() * 100, axis=1)
-#     top_property_types = df['Property Type'].value_counts().nlargest(5).index
-#     segment_property_counts = segment_property_counts[top_property_types]
-#     segment_property_counts.plot(kind='bar', stacked=True)
-#     plt.title('Property Type Distribution by Price Segment')
-#     plt.ylabel('Percentage')
-#     plt.legend(title='Property Type', bbox_to_anchor=(1.05, 1), loc='upper left')
-#     plt.grid(True, alpha=0.3)
-    
-#     # Plot most common room types by segment
-#     plt.subplot(2, 2, 4)
-#     segment_room_counts = pd.crosstab(df['Price_Segment'], df['Room Type']).apply(lambda x: x / x.sum() * 100, axis=1)
-#     segment_room_counts.plot(kind='bar', stacked=True)
-#     plt.title('Room Type Distribution by Price Segment')
-#     plt.ylabel('Percentage')
-#     plt.legend(title='Room Type', bbox_to_anchor=(1.05, 1), loc='upper left')
-#     plt.grid(True, alpha=0.3)
-    
-#     plt.tight_layout()
-#     plt.show()
-    
-#     # Calculate and print segment profiles
-#     segment_profiles = df.groupby('Price_Segment').agg({
-#         'Price': ['mean', 'min', 'max'],
-#         'Review Scores Rating': 'mean',
-#         'Number Of Reviews': 'mean',
-#         'Beds': 'mean',
-#         'Host Id': 'count'
-#     })
-#     segment_profiles.columns = ['Avg_Price', 'Min_Price', 'Max_Price', 'Avg_Rating', 'Avg_Reviews', 'Avg_Beds', 'Listing_Count']
-    
-#     print("\n• Market Segment Profiles:")
-#     for idx, row in segment_profiles.iterrows():
-#         market_share = (row['Listing_Count'] / len(df)) * 100
-#         print(f"  - {idx} Segment ({market_share:.1f}% of market):")
-#         print(f"    · Price Range: ${row['Min_Price']:.2f} - ${row['Max_Price']:.2f} (Avg: ${row['Avg_Price']:.2f})")
-#         print(f"    · Average Rating: {row['Avg_Rating']:.1f}/100")
-#         print(f"    · Average Reviews: {row['Avg_Reviews']:.1f}")
-#         print(f"    · Average Beds: {row['Avg_Beds']:.1f}")
-    
-#     # Segment neighborhood distribution
-#     print("\n• Top Neighborhoods by Market Segment:")
-#     for segment in ['Budget', 'Economy', 'Mid-range', 'Premium']:
-#         segment_neighborhoods = df[df['Price_Segment'] == segment]['Neighbourhood'].value_counts().head(3)
-#         print(f"  - {segment} Segment:")
-#         for neighborhood, count in segment_neighborhoods.items():
-#             segment_total = len(df[df['Price_Segment'] == segment])
-#             percentage = (count / segment_total) * 100
-#             print(f"    · {neighborhood}: {count} listings ({percentage:.1f}% of segment)")
+# This section will synthesize all findings into actionable business insights and
+# recommendations. This represents planned future work that will be completed after
+# the advanced analyses are conducted.
 
-# # =============================================================================
-# # SECTION 7: BUSINESS INSIGHTS & RECOMMENDATIONS
-# # =============================================================================
+# Future business insights and recommendations work:
 
-# # 7.1 Key Findings Summary
-# # Summarize the most important discoveries from your analysis
-# # Connect findings to business value and actionable insights
+# 7.1 Key Findings Summary
+# • Market Structure Insights: Overall market size, distribution, and concentration
+# • Geographical Insights: High-value areas, best value-for-money locations, investment opportunities
+# • Price Determinants: Ranking of main variables influencing pricing
+# • Property Characteristics Analysis: Market performance by property and room types
+# • Customer Satisfaction Analysis: Key factors affecting ratings
 
-# # Write your summary of key findings below:
-# if df is not None:
-#     print("\n" + "="*80)
-#     print("                           KEY BUSINESS INSIGHTS SUMMARY                           ")
-#     print("="*80)
-    
-#     # Market Structure Insights
-#     print("\n📊 MARKET STRUCTURE INSIGHTS:")
-    
-#     # Calculate key metrics if not already calculated
-#     if 'Price_Segment' not in df.columns:
-#         df['Price_Segment'] = pd.cut(
-#             df['Price'],
-#             bins=[0, df['Price'].quantile(0.25), df['Price'].quantile(0.5), df['Price'].quantile(0.75), float('inf')],
-#             labels=['Budget', 'Economy', 'Mid-range', 'Premium']
-#         )
-    
-#     total_listings = len(df)
-#     total_neighborhoods = df['Neighbourhood'].nunique()
-#     avg_price = df['Price'].mean()
-#     median_price = df['Price'].median()
-#     price_range = df['Price'].max() - df['Price'].min()
-    
-#     # Print market overview
-#     print(f"• The market consists of {total_listings} listings across {total_neighborhoods} neighborhoods.")
-#     print(f"• Average price point is ${avg_price:.2f}, with median at ${median_price:.2f}.")
-#     print(f"• Price range spans ${price_range:.2f}, indicating significant market segmentation.")
-    
-#     # Most popular property configurations
-#     top_property_type = df['Property Type'].value_counts().index[0]
-#     top_property_pct = (df['Property Type'].value_counts().iloc[0] / total_listings) * 100
-    
-#     top_room_type = df['Room Type'].value_counts().index[0]
-#     top_room_pct = (df['Room Type'].value_counts().iloc[0] / total_listings) * 100
-    
-#     print(f"• Most common property configuration: {top_property_type} as {top_room_type} ({top_room_pct:.1f}% of market)")
-    
-#     # Location Insights
-#     print("\n📍 LOCATION INSIGHTS:")
-    
-#     # Top neighborhoods by listing count
-#     top_neighborhood = df['Neighbourhood'].value_counts().index[0]
-#     top_neighborhood_count = df['Neighbourhood'].value_counts().iloc[0]
-#     top_neighborhood_pct = (top_neighborhood_count / total_listings) * 100
-    
-#     print(f"• Market concentration: {top_neighborhood} leads with {top_neighborhood_count} listings ({top_neighborhood_pct:.1f}% of market).")
-    
-#     # Calculate neighborhood metrics if not already calculated
-#     try:
-#         neighborhood_metrics = df.groupby('Neighbourhood').agg({
-#             'Price': 'mean',
-#             'Review Scores Rating': 'mean',
-#             'Host Id': 'count'
-#         }).rename(columns={'Host Id': 'Listing_Count'})
-        
-#         # Value score (rating / price ratio - higher means better value)
-#         neighborhood_metrics['Value_Score'] = neighborhood_metrics['Review Scores Rating'] / neighborhood_metrics['Price']
-        
-#         # Highest priced neighborhood
-#         highest_price_hood = neighborhood_metrics.sort_values('Price', ascending=False).index[0]
-#         highest_price = neighborhood_metrics.loc[highest_price_hood, 'Price']
-        
-#         # Best value neighborhood (among those with at least 5 listings)
-#         popular_neighborhoods = neighborhood_metrics[neighborhood_metrics['Listing_Count'] >= 5]
-#         best_value_hood = popular_neighborhoods.sort_values('Value_Score', ascending=False).index[0]
-#         best_value_price = popular_neighborhoods.loc[best_value_hood, 'Price']
-#         best_value_rating = popular_neighborhoods.loc[best_value_hood, 'Review Scores Rating']
-        
-#         print(f"• Premium location: {highest_price_hood} commands highest average price at ${highest_price:.2f}")
-#         print(f"• Best value location: {best_value_hood} offers best rating-to-price ratio (${best_value_price:.2f}, rating {best_value_rating:.1f}/100)")
-#     except:
-#         print("• Detailed neighborhood analysis not available")
-    
-#     # Pricing Insights
-#     print("\n💰 PRICING INSIGHTS:")
-    
-#     # Price determinants
-#     print("• Key price determinants in order of importance:")
-    
-#     # Try to access correlation data if available
-#     try:
-#         numerical_features = df.select_dtypes(include=['int64', 'float64']).columns
-#         correlation_matrix = df[numerical_features].corr()
-#         price_correlations = correlation_matrix['Price'].sort_values(ascending=False)
-        
-#         # Print top 3 price correlations (excluding Price itself)
-#         count = 0
-#         for feature, correlation in price_correlations.items():
-#             if feature != 'Price' and count < 3:
-#                 print(f"  {count+1}. {feature}: {correlation:.2f} correlation")
-#                 count += 1
-#     except:
-#         # Fallback if correlation analysis wasn't run
-#         print("  1. Property Type and Room Type (categorical)")
-#         print("  2. Location (Neighbourhood and Zipcode)")
-#         print("  3. Number of Beds")
-    
-#     # Property Type Insights
-#     print("\n🏠 PROPERTY INSIGHTS:")
-    
-#     # Price premium by property type (if data available)
-#     try:
-#         top_property_types = df['Property Type'].value_counts().nlargest(3).index
-#         property_price_avg = df[df['Property Type'].isin(top_property_types)].groupby('Property Type')['Price'].mean().sort_values(ascending=False)
-        
-#         for idx, price in property_price_avg.items():
-#             premium_pct = ((price - avg_price) / avg_price) * 100
-#             premium_txt = f"{premium_pct:.1f}% premium" if premium_pct > 0 else f"{abs(premium_pct):.1f}% discount"
-#             print(f"• {idx}: ${price:.2f} ({premium_txt} vs. market average)")
-#     except:
-#         print("• Detailed property type price analysis not available")
-    
-#     # Room Type Insights
-#     try:
-#         room_price_avg = df.groupby('Room Type')['Price'].agg(['mean', 'median', 'count']).sort_values('mean', ascending=False)
-    
-#         for idx, row in room_price_avg.iterrows():
-#             premium_pct = ((row['mean'] - overall_avg_price) / overall_avg_price) * 100
-#             premium_txt = f"{premium_pct:.1f}% premium" if premium_pct > 0 else f"{abs(premium_pct):.1f}% discount"
-#             print(f"• {idx}: ${row['mean']:.2f} ({premium_txt} vs. market average)")
-#     except:
-#         print("• Detailed room type price analysis not available")
-    
-#     # Guest Satisfaction Insights
-#     print("\n⭐ GUEST SATISFACTION INSIGHTS:")
-    
-#     avg_rating = df['Review Scores Rating'].mean()
-#     print(f"• Average satisfaction rating across all properties: {avg_rating:.1f}/100")
-    
-#     # Try to access rating correlations if available
-#     try:
-#         if 'Review Scores Rating' in correlation_matrix.columns:
-#             rating_correlations = correlation_matrix['Review Scores Rating'].sort_values(ascending=False)
-            
-#             # Print top 3 rating correlations (excluding Rating itself)
-#             count = 0
-#             print("• Factors most associated with higher ratings:")
-#             for feature, correlation in rating_correlations.items():
-#                 if feature != 'Review Scores Rating' and count < 3:
-#                     print(f"  {count+1}. {feature}: {correlation:.2f} correlation")
-#                     count += 1
-#     except:
-#         print("• Detailed rating correlation analysis not available")
+# 7.2 Business Recommendations
+# • For Property Investors: Investment locations, property types, expected returns
+# • For Current Hosts: Price optimization, amenity improvements, rating enhancement
+# • For Airbnb Platform: Market expansion, host education, dynamic pricing
+# • For Travelers: Best value accommodations, premium options, budget choices
 
-# # 7.2 Business Recommendations
-# # Provide specific, actionable recommendations based on your analysis:
-# # 1. For Property Investors
-# # 2. For Current Hosts
-# # 3. For Airbnb Platform
-# # 4. For Travelers
-
-# # Write your business recommendations below:
-# if df is not None:
-#     print("\n" + "="*80)
-#     print("                        ACTIONABLE BUSINESS RECOMMENDATIONS                        ")
-#     print("="*80)
-    
-#     # Recommendations for Property Investors
-#     print("\n💼 FOR PROPERTY INVESTORS:")
-#     print("1️⃣ Target neighborhoods with high rating-to-price ratios for best ROI potential.")
-    
-#     # Try to recommend specific neighborhoods if analysis was done
-#     try:
-#         opportunity_neighborhoods = popular_neighborhoods[(popular_neighborhoods['Review Scores Rating'] > 85) & 
-#                                                     (popular_neighborhoods['Price'] < avg_price)].sort_values('Value_Score', ascending=False)
-        
-#         if not opportunity_neighborhoods.empty:
-#             print(f"   • Consider properties in {opportunity_neighborhoods.index[0]} and {opportunity_neighborhoods.index[1]} for high ratings at below-average prices.")
-#     except:
-#         pass
-    
-#     print("2️⃣ Focus on property types with highest premiums for maximum revenue potential.")
-#     print("3️⃣ Consider the trade-off between \"Entire home/apt\" (higher price) vs. \"Private room\" (potentially better ROI).")
-#     print("4️⃣ Analyze local supply-demand dynamics before investing in highly saturated neighborhoods.")
-    
-#     # Recommendations for Current Hosts
-#     print("\n🏠 FOR CURRENT HOSTS:")
-#     print("1️⃣ Optimize pricing strategy based on your neighborhood's position relative to market average.")
-#     print("2️⃣ Benchmark your property against neighborhood averages for both price and ratings.")
-#     print("3️⃣ Focus on areas with highest correlation to positive reviews to maximize guest satisfaction.")
-#     print("4️⃣ Consider offering more beds for better price efficiency, as multi-bed configurations often command higher premiums.")
-#     print("5️⃣ Use market segmentation data to position your property within the appropriate price tier.")
-    
-#     # Recommendations for Airbnb Platform
-#     print("\n🌐 FOR AIRBNB PLATFORM:")
-#     print("1️⃣ Develop targeted expansion strategies for underrepresented neighborhoods with high value scores.")
-#     print("2️⃣ Create host education resources focused on pricing optimization by property type and neighborhood.")
-#     print("3️⃣ Implement dynamic pricing suggestions based on property characteristics and location benchmarks.")
-#     print("4️⃣ Consider neighborhood-specific marketing campaigns highlighting unique value propositions.")
-#     print("5️⃣ Develop quality standards and incentives for hosts to improve ratings in neighborhoods with below-average scores.")
-    
-#     # Recommendations for Travelers
-#     print("\n✈️ FOR TRAVELERS:")
-#     print("1️⃣ Best value accommodations can be found in neighborhoods with high rating-to-price ratios.")
-    
-#     # Try to recommend specific neighborhoods if analysis was done
-#     try:
-#         best_value_hoods = popular_neighborhoods.sort_values('Value_Score', ascending=False).head(2)
-#         if not best_value_hoods.empty:
-#             print(f"   • Consider {best_value_hoods.index[0]} and {best_value_hoods.index[1]} for best value accommodations.")
-#     except:
-#         pass
-    
-#     print("2️⃣ Premium travelers should focus on top-rated property types rather than just expensive neighborhoods.")
-#     print("3️⃣ Budget travelers should consider 'Private room' configurations for significant savings with minimal rating impact.")
-#     print("4️⃣ Consider the trade-off between central location premium and better value in nearby neighborhoods.")
-#     print("5️⃣ Book with experienced hosts (3+ years) for potentially better-rated stays.")
+# 7.3 Market Opportunities
+# • Underdeveloped Markets: Areas with high ratings but limited supply
+# • Price Optimization Opportunities: Listings with significant price differences from similar properties
+# • Differentiation Strategies: Unique selling points for different property types and locations
+# • Seasonal Strategies: Pricing recommendations based on market trends
 
