@@ -144,7 +144,7 @@ The skills and methodology shown here apply to:
 
 ## 🎯 Portfolio Impact
 
-This project showcases skills essential for senior data science roles:
+This project showcases skills essential for data science roles:
 
 ### **Technical Excellence**
 - Advanced Python programming and data manipulation
@@ -184,4 +184,4 @@ After running the evaluation notebook, this project can be extended with:
 
 ---
 
-*This project demonstrates systematic thinking, technical expertise, and business acumen essential for senior data science positions. The methodology and results showcase the ability to make strategic, data-driven decisions while maintaining professional standards and clear communication.*
+*This project demonstrates systematic thinking, technical expertise, and business acumen essential for data science positions. The methodology and results showcase the ability to make strategic, data-driven decisions while maintaining professional standards and clear communication.*

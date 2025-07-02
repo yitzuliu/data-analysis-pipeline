@@ -2,7 +2,7 @@
 
 **Date:** June 28, 2025  
 **Purpose:** Demonstrate data science skills to employers  
-**Target Role:** Senior Data Analyst / Data Scientist  
+**Target Role:** Data Analyst / Data Scientist  
 
 ---
 
@@ -206,4 +206,4 @@ Located in: `/Datasource/`
 
 ---
 
-*This document serves as the master plan for demonstrating senior-level data science capabilities through systematic analysis and professional presentation.*
+*This document serves as the master plan for demonstrating data science capabilities through systematic analysis and professional presentation.*
