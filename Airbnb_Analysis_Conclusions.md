@@ -3,6 +3,7 @@
 **Analysis Date:** 2025  
 **Dataset:** Airbnb NYC Listings (Cleaned)  
 **Scope:** Exploratory Data Analysis (EDA) for Market Intelligence  
+> 📂 **Detailed Charts & Analysis:** See [`EDA_Process & Result/Airbnb_EDA.ipynb`](EDA_Process%20&%20Result/Airbnb_EDA.ipynb)
 
 ---
 
