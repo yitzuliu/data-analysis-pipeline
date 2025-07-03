@@ -1,80 +1,67 @@
-# Data Analysis Pipeline
-## Systematic Dataset Evaluation and Analysis Framework
+# Airbnb NYC Market Analysis: Data Science Portfolio
 
-**A comprehensive data science project demonstrating systematic dataset selection, evaluation methodology, and advanced analytics capabilities.**
+**A comprehensive data science project demonstrating systematic dataset evaluation, advanced analytics, and business intelligence.**
 
 ---
 
 ## 🎯 Project Overview
 
-This project showcases a systematic approach to data science through:
-- **Structured dataset evaluation framework** with weighted scoring criteria
-- **Professional Jupyter notebook analysis** with comprehensive documentation  
-- **Business-focused insights** with real-world applicability
-- **Advanced technical implementation** using Python, pandas, matplotlib, and plotly
-
-### Key Features
-- ✅ **6-dataset systematic evaluation** using weighted criteria (Data Quality 40%, Business Relevance 35%, Technical Complexity 25%)
-- ✅ **Live evaluation framework** with quantitative scoring and transparent methodology
-- ✅ **Professional documentation** suitable for recruiter and employer review
-- ✅ **End-to-end data pipeline** from raw data to actionable business insights
+This portfolio showcases a complete data science workflow:
+- **✅ Systematic 6-dataset evaluation** with weighted scoring (Data Quality 40%, Business Relevance 35%, Technical Complexity 25%)
+- **✅ Professional ETL pipeline** with hierarchical data cleaning and validation
+- **✅ Comprehensive EDA analysis** of 17,282 Airbnb listings across NYC
+- **✅ Business intelligence report** with actionable market insights
 
 ---
 
-## 🏆 Project Results
+## 🏆 Key Findings
 
-### Dataset Evaluation Results
-Our systematic framework evaluated 6 datasets and selected the optimal one based on:
+### Dataset Selection Results
+| 🥇 | **Airbnb NYC**  **✅ SELECTED & ANALYZED** |
 
-| Rank | Dataset | Final Score | Key Strengths |
-|------|---------|-------------|---------------|
-| 🥇 1 | **Selected Dataset** | **XX.X/100** | High business relevance, excellent data quality |
-| 🥈 2 | Alternative | XX.X/100 | Strong technical potential |
-| 🥉 3 | Option 3 | XX.X/100 | Good balance of factors |
 
-*Note: Scores will be updated after running the evaluation notebook*
+### Market Intelligence Highlights
+- **Geographic Concentration**: Manhattan 54.8% market share with 17.2% price premium
+- **Pricing Dynamics**: Entire homes command 122.2% premium over private rooms
+- **Value Opportunities**: Brooklyn shows highest ratings (93.0/100) with 17.4% lower prices
+- **Market Structure**: Location drives pricing more than ratings
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-data-analysis-pipeline/
-├── 📄 README.md                           # This file
-├── 📋 Data_Science_Portfolio_Plan.md      # Project planning document
-├── 📋 Dataset_Selection_Methodology.md    # Evaluation framework documentation
-├── 📓 Dataset_Evaluation_Process.ipynb    # Main evaluation notebook
-├── 📁 Datasource/                         # Raw datasets
-│   ├── airbnb.xlsx
-│   ├── netflix_titles.xlsx
-│   ├── sample_-_superstore.xls
-│   ├── SpotifyFeatures.csv
-│   ├── titanic passenger list.csv
-│   └── ai_adoption_dataset.csv
-└── 📁 results/                            # Analysis outputs (to be added)
+Data Science Portfolio/
+├── 📄 README.md                                    # Project overview
+├── 📋 Airbnb_Analysis_Conclusions.md               # Business intelligence report
+├── 📁 Dataset_Evaluation_Process/                  # Systematic evaluation framework
+│   ├── 📓 Dataset_Evaluation_Process.ipynb        # Evaluation notebook
+│   └── 🐍 Dataset_Evaluation_Process.py           # Evaluation script
+├── 📁 ETL_Process/                                # Data processing pipeline
+│   ├── 📓 ETL_Airbnb_Process.ipynb               # ETL notebook
+│   └── 🐍 ETL.py                                 # ETL script
+├── 📁 EDA_Process & Result/                       # Analysis outputs
+│   └── 📓 Airbnb_EDA.ipynb                       # Comprehensive EDA
+└── 📁 Datasource/                                # Raw and processed datasets
+    ├── airbnb.xlsx                               # Original data
+    ├── airbnb_clean.csv                          # Processed dataset (17,282 × 11)
+    └── [other evaluated datasets]
 ```
 
 ---
 
 ## 🛠️ Technical Skills Demonstrated
 
-### **Core Data Science Stack**
-- **Python** - pandas, numpy, matplotlib for data manipulation and analysis
-- **Jupyter Notebooks** - Professional documentation and reproducible analysis
-- **Statistical Analysis** - Descriptive statistics, correlation analysis, hypothesis testing
-- **Data Visualization** - Charts, graphs, and interactive dashboards
+### **Core Capabilities**
+- **Python Programming**: pandas, numpy, matplotlib, seaborn
+- **Statistical Analysis**: Descriptive statistics, distribution analysis, correlation studies
+- **Data Visualization**: Professional charts, business-ready insights
+- **ETL Processing**: Data cleaning, hierarchical imputation, validation
 
 ### **Advanced Analytics**
-- **Data Quality Assessment** - Missing data analysis, outlier detection, consistency checks
-- **Business Intelligence** - Market analysis, revenue optimization, strategic insights
-- **Machine Learning** - Predictive modeling, clustering, classification (where applicable)
-- **Geographic Analysis** - Spatial data analysis and mapping capabilities
-
-### **Professional Methodology**
-- **Systematic Decision Making** - Weighted evaluation criteria and transparent scoring
-- **Business Communication** - Executive-ready insights and recommendations
-- **Documentation Standards** - Clear, professional, and reproducible analysis
-- **Project Management** - Structured approach from planning to execution
+- **Market Intelligence**: Geographic segmentation, price premium analysis
+- **Business Communication**: Executive-ready insights and recommendations
+- **Systematic Methodology**: Weighted evaluation frameworks, transparent processes
 
 ---
 
@@ -82,106 +69,50 @@ data-analysis-pipeline/
 
 ### Prerequisites
 ```bash
-# Required Python packages
-pip install pandas numpy matplotlib plotly jupyter openpyxl xlrd
+pip install pandas numpy matplotlib seaborn jupyter openpyxl xlrd
 ```
 
 ### Running the Analysis
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yitzuliu/data-analysis-pipeline.git
-   cd data-analysis-pipeline
-   ```
-
-2. **Run the dataset evaluation**
-   ```bash
-   jupyter notebook Dataset_Evaluation_Process.ipynb
-   ```
-
-3. **Follow the systematic evaluation process**
-   - Section 1: Import libraries
-   - Section 2: Load and inspect datasets  
-   - Section 3: Assess data quality (40% weight)
-   - Section 4: Evaluate business relevance (35% weight)
-   - Section 5: Evaluate technical complexity (25% weight)
-   - Section 6: Score and rank datasets
-   - Section 7: Document selection rationale
+1. **Dataset Evaluation**: `jupyter notebook Dataset_Evaluation_Process/Dataset_Evaluation_Process.ipynb`
+2. **ETL Processing**: `jupyter notebook ETL_Process/ETL_Airbnb_Process.ipynb`
+3. **EDA Analysis**: `jupyter notebook EDA_Process\ \&\ Result/Airbnb_EDA.ipynb`
+4. **Review Report**: Open `Airbnb_Analysis_Conclusions.md`
 
 ---
 
-## 💼 Business Value
+## 📊 Analysis Framework
 
-### **Strategic Decision Making**
-This project demonstrates the ability to:
-- **Systematically evaluate options** using quantitative criteria
-- **Make data-driven decisions** with transparent methodology
-- **Communicate findings clearly** to both technical and business audiences
-- **Focus on business impact** while maintaining technical rigor
+### **Methodology**
+- **Dataset Selection**: Weighted scoring with quantitative criteria
+- **Data Processing**: Professional ETL with quality validation
+- **Exploratory Analysis**: Univariate, categorical, and bivariate analysis
+- **Business Intelligence**: Strategic insights with revenue impact analysis
 
-### **Real-World Applications**
-The skills and methodology shown here apply to:
-- **Data product development** - Choosing optimal datasets for analysis
-- **Business intelligence projects** - Evaluating data sources for insights
-- **Market research initiatives** - Systematic approach to data assessment
-- **Executive reporting** - Professional presentation of analytical findings
+### **Key Deliverables**
+- Systematic dataset evaluation with 97.8/100 selection score
+- Clean dataset: 17,282 rows × 11 columns, 0% missing data
+- Geographic market analysis across 5 NYC boroughs
+- Price determination factors and market concentration insights
 
 ---
 
-## 📊 Evaluation Methodology
+## 🔮 Future Enhancements
 
-### **Weighted Scoring Framework**
-- **Data Quality (40%)**: Completeness, consistency, size, cleanliness
-- **Business Relevance (35%)**: Revenue impact, executive interest, real-world applicability  
-- **Technical Complexity (25%)**: Statistical opportunities, ML potential, visualization possibilities
-
-### **Systematic Process**
-1. **Quantitative Assessment** - Objective scoring across all criteria
-2. **Transparent Methodology** - Clear rationale for all decisions
-3. **Reproducible Results** - Documented process that others can follow
-4. **Business Focus** - Emphasis on practical, actionable outcomes
+- **Interactive Visualization**: Tableau dashboards, plotly integration
+- **Machine Learning**: Price prediction models, clustering analysis
+- **Temporal Analysis**: Multi-year trends, seasonal patterns
+- **External Data**: Economic indicators, regulatory impact studies
 
 ---
 
-## 🎯 Portfolio Impact
+## 🏆 Portfolio Value
 
-This project showcases skills essential for data science roles:
+**Technical Excellence**: Advanced Python, statistical analysis, professional visualization  
+**Business Acumen**: Market intelligence, pricing strategy, executive communication  
+**Methodology**: Systematic approach, reproducible workflows, quality assurance  
 
-### **Technical Excellence**
-- Advanced Python programming and data manipulation
-- Statistical analysis and machine learning implementation  
-- Professional documentation and code quality
-- Interactive visualization and dashboard creation
-
-### **Business Acumen**
-- Strategic thinking and systematic decision making
-- Revenue-focused analysis and market intelligence
-- Executive communication and presentation skills
-- Real-world problem solving with practical solutions
-
-### **Professional Methodology**  
-- Structured project planning and execution
-- Transparent and reproducible analysis processes
-- Industry-standard documentation and best practices
-- Team-ready code with clear commenting and structure
+*This portfolio demonstrates comprehensive data science capabilities essential for analyst/scientist roles, combining technical proficiency with business insight and professional presentation.*
 
 ---
 
-## 🔗 Next Steps
-
-After running the evaluation notebook, this project can be extended with:
-- **Comprehensive analysis** of the selected dataset
-- **Interactive dashboards** using plotly and advanced visualization
-- **Machine learning models** for prediction and classification
-- **Executive summary report** with business recommendations
-
----
-
-## 📞 Contact
-
-**Repository Owner**: [Your Name]  
-**GitHub**: [@yitzuliu](https://github.com/yitzuliu)  
-**Purpose**: Data Science Portfolio Development  
-
----
-
-*This project demonstrates systematic thinking, technical expertise, and business acumen essential for data science positions. The methodology and results showcase the ability to make strategic, data-driven decisions while maintaining professional standards and clear communication.*
+**Portfolio Contact**: Data Science Professional | Purpose: Skill demonstration for data analyst/scientist positions

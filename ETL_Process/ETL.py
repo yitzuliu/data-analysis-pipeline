@@ -65,13 +65,7 @@ Airbnb_df = Airbnb_df[(Airbnb_df['Review Scores Rating'] >= 1) & (Airbnb_df['Rev
 Airbnb_df = Airbnb_df[(Airbnb_df['Number of Records'] >= 1)]
 
 # Cleaning the dataset
-Airbnb_df = Airbnb_df.dropna(
-    subset=[
-        'Host Id', 'Host Since', 'Neighbourhood', 'Zipcode',
-        'Property Type', 'Room Type', 'Beds', 'Price',
-        'Number of Records', 'Number Of Reviews', 'Review Scores Rating'
-    ]
-)
+Airbnb_df = Airbnb_df.dropna(subset=['Host Id', 'Host Since', 'Neighbourhood', 'Zipcode','Property Type', 'Room Type', 'Beds', 'Price','Number of Records', 'Number Of Reviews', 'Review Scores Rating'])
 
 #Catelog Neighbourhood, Room type, Beds and Property Type
 Airbnb_df['Neighbourhood'] = Airbnb_df['Neighbourhood'].astype('category')
